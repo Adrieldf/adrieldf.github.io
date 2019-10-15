@@ -2,14 +2,14 @@ var dataReload = document.querySelectorAll("[data-reload]");
 
 var language = {
     eng: {
-        welcome: "Welcome",
-        iam: "I'm Adriel Izoton",
+        welcome: "Welcome!",
+        iam: "I'm Adriel Izoton.",
         webdev: "Web Developer",
         gamedev: "Indie Game Developer",
     },
     ptbr: {
-        welcome: "Seja bem-vindo",
-        iam: "Eu sou o Adriel Izoton",
+        welcome: "Seja bem-vindo!",
+        iam: "Eu sou Adriel Izoton.",
         webdev: "Desenvolvedor Web",
         gamedev: "Desenvolvedor de Jogos independente",
     }
