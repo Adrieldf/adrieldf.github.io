@@ -16,7 +16,20 @@
 </head>
 
 <body>
+  <!-- Loader -->
+  <div id="loaderWrapper" class="loaderWrapper">
+    <div class="gooey">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- Loader -->
   <div class="row" style="margin-right: 0px;">
+    <!-- Navbar -->
     <div class="col-2 adrNavbar">
       <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
@@ -24,7 +37,7 @@
         <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
           aria-controls="v-pills-profile" aria-selected="false">About</a>
         <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
-          aria-controls="v-pills-messages" aria-selected="false">Portifolio</a>
+          aria-controls="v-pills-messages" aria-selected="false">Projects</a>
         <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
           aria-controls="v-pills-settings" aria-selected="false">Contact</a>
       </div>
@@ -50,15 +63,17 @@
           </span>
         </a>
       </div>
+      <!-- Navbar -->
     </div>
     <div class="col-10">
       <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-          <div class="home" style="background-image: url(https://media1.tenor.com/images/467e53562b5ab939f210691e9f375732/tenor.gif?itemid=8078233); background-size: cover;">
-          <div class="home organizer" style="background-color: #00000070;">
-            <h1>Adriel Izoton de Faci</h1>
-            <h3>Web Developer & Indie Game Developer</h3>
-          </div>
+          <div class="home"
+            style="background-image: url(https://media1.tenor.com/images/467e53562b5ab939f210691e9f375732/tenor.gif?itemid=8078233); background-size: cover;">
+            <div class="home organizer" style="background-color: #00000070;">
+              <h1>Adriel Izoton de Faci</h1>
+              <h3>Web Developer & Indie Game Developer</h3>
+            </div>
           </div>
         </div>
         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">About
@@ -66,30 +81,35 @@
         <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
           <div class="portifolioCardsMenu">
 
-         
-          <div class="card" style="width: 18rem;">
-            <img src="https://img.itch.zone/aW1nLzI0NDI4MDIucG5n/315x250%23c/h2wsdb.png" class="card-img-top" alt="Rock Paper Scissors Lies Game Image">
-            <div class="card-body">
-              <h5 class="card-title">Rock Paper Scissors Lies</h5>
-              <p class="card-text">A game created for the Community Game Jam by the theme "The game is a liar" in Aug/2019</p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Created in 1 week</li>
-              <li class="list-group-item">Unity and C#</li>
-              <li class="list-group-item">Pixel Art with Aseprite</li>
-              <li class="list-group-item">2D Lights</li>
-              <li class="list-group-item">Web and Windows Versions</li>
-            </ul>
-            <div class="card-body">
-                <a href="https://adrieldf.itch.io/rock-paper-scissors-lies" class="btn btn-primary" target="_blank">Play it!</a>
-            </div>
 
-          </div>
-          <div class="card" style="width: 18rem;">
-              <img src="https://img.itch.zone/aW1nLzIwNTc2ODkuanBn/315x250%23c/piELky.jpg" class="card-img-top" alt="Rock Paper Scissors Lies Game Image">
+            <div class="card" style="width: 18rem;">
+              <img src="https://img.itch.zone/aW1nLzI0NDI4MDIucG5n/315x250%23c/h2wsdb.png" class="card-img-top"
+                alt="Rock Paper Scissors Lies Game Image">
+              <div class="card-body">
+                <h5 class="card-title">Rock Paper Scissors Lies</h5>
+                <p class="card-text">A game created for the Community Game Jam by the theme "The game is a liar" in
+                  Aug/2019</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Created in 1 week</li>
+                <li class="list-group-item">Unity and C#</li>
+                <li class="list-group-item">Pixel Art with Aseprite</li>
+                <li class="list-group-item">2D Lights</li>
+                <li class="list-group-item">Web and Windows Versions</li>
+              </ul>
+              <div class="card-body">
+                <a href="https://adrieldf.itch.io/rock-paper-scissors-lies" class="btn btn-primary" target="_blank">Play
+                  it!</a>
+              </div>
+
+            </div>
+            <div class="card" style="width: 18rem;">
+              <img src="https://img.itch.zone/aW1nLzIwNTc2ODkuanBn/315x250%23c/piELky.jpg" class="card-img-top"
+                alt="Rock Paper Scissors Lies Game Image">
               <div class="card-body">
                 <h5 class="card-title">Sam the Slime Slayer</h5>
-                <p class="card-text">A game created with my friend Patrick Rodrigues for the Ludum Dare 44 Game Jam by the theme "Your life is currency" in Apr/2019</p>
+                <p class="card-text">A game created with my friend Patrick Rodrigues for the Ludum Dare 44 Game Jam by
+                  the theme "Your life is currency" in Apr/2019</p>
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">Created in 72 hours</li>
@@ -99,56 +119,66 @@
                 <li class="list-group-item">Web Version</li>
               </ul>
               <div class="card-body">
-                  <a href="https://adrieldf.itch.io/sam-the-slime-slayer" class="btn btn-primary" target="_blank">Play it!</a>
+                <a href="https://adrieldf.itch.io/sam-the-slime-slayer" class="btn btn-primary" target="_blank">Play
+                  it!</a>
               </div>
             </div>
             <div class="card" style="width: 18rem;">
-                <img src="https://img.itch.zone/aW1nLzIwMDU3OTUucG5n/315x250%23c/%2F55txo.png" class="card-img-top" alt="Rock Paper Scissors Lies Game Image">
-                <div class="card-body">
-                  <h5 class="card-title">Run Cockroach Run</h5>
-                  <p class="card-text">A game created with my friend Patrick Rodrigues for the 8 Bits To Infinity ~ Two Button Game Jam in Apr/2019</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Created in 1 week</li>
-                  <li class="list-group-item">Unity and C#</li>
-                  <li class="list-group-item">Only two buttons</li>
-                  <li class="list-group-item">Infinite runner</li>
-                  <li class="list-group-item">Web and Windows Versions</li>
-                </ul>
-                <div class="card-body">
-                    <a href="https://adrieldf.itch.io/run-cockroach-run" class="btn btn-primary" target="_blank">Play it!</a>
-                </div>
+              <img src="https://img.itch.zone/aW1nLzIwMDU3OTUucG5n/315x250%23c/%2F55txo.png" class="card-img-top"
+                alt="Rock Paper Scissors Lies Game Image">
+              <div class="card-body">
+                <h5 class="card-title">Run Cockroach Run</h5>
+                <p class="card-text">A game created with my friend Patrick Rodrigues for the 8 Bits To Infinity ~ Two
+                  Button Game Jam in Apr/2019</p>
               </div>
-              <div class="card" style="width: 18rem;">
-                  <img src="https://lh3.googleusercontent.com/JbxtvePyNROnkvC2X6_FUFAam93VE74svRXovTuFxo423-Sou_IFUmIkenYMJ9M4UF2E=s180-rw" class="card-img-top" alt="Rock Paper Scissors Lies Game Image">
-                  <div class="card-body">
-                    <h5 class="card-title">Cactus Care</h5>
-                    <p class="card-text">A clicker game that your objective is to grow different cactus</p>
-                  </div>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Unity and C#</li>
-                    <li class="list-group-item">Android Version</li>
-                  </ul>
-                  <div class="card-body">
-                      <a href="https://play.google.com/store/apps/details?id=com.adrielgames.cactuscare" class="btn btn-primary" target="_blank">Google Play Store</a>
-                  </div>
-                </div>
-              <div class="card" style="width: 18rem;">
-                  <img src="https://lh3.googleusercontent.com/D81f44nnTntidUAky35OpdBOlpXyqqs0ITk5ve5yyr1weQXgEuT7ky0jc2AJbgcNLJc=s180-rw" class="card-img-top" alt="Rock Paper Scissors Lies Game Image">
-                  <div class="card-body">
-                    <h5 class="card-title">SkyRunner</h5>
-                    <p class="card-text">A infinite runner mobile game with random generated terrain</p>
-                  </div>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Unity and C#</li>
-                    <li class="list-group-item">Infinite runner</li>
-                    <li class="list-group-item">Android Version</li>
-                  </ul>
-                  <div class="card-body">
-                      <a href="https://play.google.com/store/apps/details?id=com.adrielgames.skyrunner" class="btn btn-primary" target="_blank">Google Play Store</a>
-                  </div>
-                </div>
-        </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Created in 1 week</li>
+                <li class="list-group-item">Unity and C#</li>
+                <li class="list-group-item">Only two buttons</li>
+                <li class="list-group-item">Infinite runner</li>
+                <li class="list-group-item">Web and Windows Versions</li>
+              </ul>
+              <div class="card-body">
+                <a href="https://adrieldf.itch.io/run-cockroach-run" class="btn btn-primary" target="_blank">Play
+                  it!</a>
+              </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+              <img
+                src="https://lh3.googleusercontent.com/JbxtvePyNROnkvC2X6_FUFAam93VE74svRXovTuFxo423-Sou_IFUmIkenYMJ9M4UF2E=s180-rw"
+                class="card-img-top" alt="Rock Paper Scissors Lies Game Image">
+              <div class="card-body">
+                <h5 class="card-title">Cactus Care</h5>
+                <p class="card-text">A clicker game that your objective is to grow different cactus</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Unity and C#</li>
+                <li class="list-group-item">Android Version</li>
+              </ul>
+              <div class="card-body">
+                <a href="https://play.google.com/store/apps/details?id=com.adrielgames.cactuscare"
+                  class="btn btn-primary" target="_blank">Google Play Store</a>
+              </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+              <img
+                src="https://lh3.googleusercontent.com/D81f44nnTntidUAky35OpdBOlpXyqqs0ITk5ve5yyr1weQXgEuT7ky0jc2AJbgcNLJc=s180-rw"
+                class="card-img-top" alt="Rock Paper Scissors Lies Game Image">
+              <div class="card-body">
+                <h5 class="card-title">SkyRunner</h5>
+                <p class="card-text">A infinite runner mobile game with random generated terrain</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Unity and C#</li>
+                <li class="list-group-item">Infinite runner</li>
+                <li class="list-group-item">Android Version</li>
+              </ul>
+              <div class="card-body">
+                <a href="https://play.google.com/store/apps/details?id=com.adrielgames.skyrunner"
+                  class="btn btn-primary" target="_blank">Google Play Store</a>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">Contact
         </div>

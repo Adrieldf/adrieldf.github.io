@@ -1,4 +1,7 @@
-function test(){
-
-    alert("foi");
+function test() {
+  alert("foi");
 }
+
+$(window).on("load", function() {
+  $("#loaderWrapper").hide();
+});
