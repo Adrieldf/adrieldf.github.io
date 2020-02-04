@@ -89,7 +89,7 @@ h6 {
   height: 16px;
   top: 12px;
   left: 15px;
-  filter: blur(4px);
+ /* filter: blur(4px);*/
   background: rgb(199, 199, 199);
   border-radius: 50%;
   transform: translateX(0);
@@ -107,7 +107,7 @@ h6 {
   width: 16px;
   height: 16px;
   margin-left: 16px;
-  filter: blur(4px);
+ /* filter: blur(4px);*/
   background: rgb(199, 199, 199);
   border-radius: 50%;
 }
