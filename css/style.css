@@ -3,19 +3,23 @@
   background-color: #3d3d3d;
   padding-right: 0px;
 }
-button {
+a {
+  background-color: grey;
+  border: 1px solid black;
   border-radius: 5px;
   width: 100%;
+  padding: 10px 5px 5px 5px;
+}
+a:hover {
+  color: #979797;
+}
+.buttonTextColor {
+  font-size: 25px;
+   color: rgb(255, 255, 255);
 }
 .nav-pills .nav-link.active {
   background-color: #1d1d1dbb;
   border-radius: 0px;
-}
-a {
-  color: #ffffff;
-}
-a:hover {
-  color: #979797;
 }
 .navBottomItens {
   position: absolute;
