@@ -5,6 +5,7 @@
 }
 button {
   border-radius: 5px;
+  width: 100%;
 }
 .nav-pills .nav-link.active {
   background-color: #1d1d1dbb;
