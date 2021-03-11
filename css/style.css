@@ -1,3 +1,22 @@
+body,
+html {
+  height: 100%;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.transparent-card {
+  background-color: #ffffffab;
+  border: 1px solid #717171;
+  box-shadow: 3px 3px 1px 0px #0a0a0ab3;
+}
+
 .adrNavbar {
   height: 100vh;
   background-color: #3d3d3d;
@@ -15,7 +34,7 @@ a:hover {
 }
 .buttonTextColor {
   font-size: 25px;
-   color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 .nav-pills .nav-link.active {
   background-color: #1d1d1dbb;
