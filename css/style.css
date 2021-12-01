@@ -19,26 +19,42 @@ html {
   border: 1px solid #717171;
   box-shadow: 3px 3px 1px 0px #0a0a0ab3;
 }
+.twitter-div {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
 
 .adrNavbar {
   height: 100vh;
   background-color: #3d3d3d;
   padding-right: 0px;
+ 
 }
 a {
-  background-color: grey;
-  border: 1px solid black;
-  border-radius: 5px;
+  border-bottom: 1px solid black;
+  width: 100%;
   width: 100%;
   padding: 10px 5px 5px 5px;
+  color: rgb(0, 0, 0);
 }
 a:hover {
-  color: #979797;
+  color: #a8a8a8;
+  text-decoration: none;
+  border-bottom: 1px solid white;
 }
 .buttonTextColor {
   font-size: 25px;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
 }
+.buttonTextColor:hover {
+  color: #ffffff; 
+  font-style: italic;
+ }
+
 .nav-pills .nav-link.active {
   background-color: #1d1d1dbb;
   border-radius: 0px;
