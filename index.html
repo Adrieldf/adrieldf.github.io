@@ -1,32 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/style.css">
-
-
+  <link rel="stylesheet" href="./src/css/style.css">
   <title>Adriel Izoton</title>
 </head>
 
 <body>
-  <!-- Loader -->
-  <div id="loaderWrapper" class="loaderWrapper">
-    <div class="gooey">
-      <span class="dot"></span>
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
+
+
+  <div id="app">
+    <canvas id="bg"></canvas>
+
   </div>
-  <!-- Loader -->
   <div class="bg">
     <div class="container-fluid vertical-center">
       <div class="row justify-content-md-center align-items-md-center">
@@ -41,9 +33,11 @@
                   class="rounded-circle" alt="Adriel">
               </div>
               <p class="card-text">Web Developer & Indie Game Developer.</p>
-              <p class="card-text"> Currently working on Mooble.com as a full time job and on some personal projects in
+              <p class="card-text"> Currently working on Mooble.com as a full time job and on some personal projects
+                in
                 my free time.</p>
-              <p class="card-text"> I love to code, especially the back end where I feel more comfortable, I really like
+              <p class="card-text"> I love to code, especially the back end where I feel more comfortable, I really
+                like
                 to work with 3D environments and even more if it is relatable to game development.</p>
               <p class="card-text"> I've created some indie games by myself, some with friends and also have
                 participated on a few game jams, which you can check below on my projects section.</p>
@@ -91,19 +85,6 @@
                     </span>
                   </a>
                 </div>
-                <div style="flex-grow: 1;" class="linkButtons">
-                  <a href="bg.html">
-                    <span class="buttonTextColor" title="bg">
-                      <i class="fas fa-external-link-alt"></i>
-                      Webgl WIP
-                    </span>
-                  </a>
-                </div>
-              </div>
-
-              <div class="twitter-div">
-                <a class="twitter-timeline" data-width="500" data-height="250" data-theme="dark"
-                  href="https://twitter.com/adriel_df?ref_src=twsrc%5Etfw">Tweets by adriel_df</a>
               </div>
 
 
@@ -117,8 +98,8 @@
 
   </div>
 
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+  <script type="module" src="./src/ts/main.ts"></script>
   <script src="https://kit.fontawesome.com/c9fb13331b.js" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -129,7 +110,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
-  <script src="js/controller.js"></script>
 </body>
 
 </html>
