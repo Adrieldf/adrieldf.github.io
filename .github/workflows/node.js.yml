@@ -32,4 +32,5 @@ jobs:
     - run: git config --global user.name "Adrieldf"
     - run: git add dist -f
     - run: git commit -m "dist"
+    - run: git pull -f
     - run: git subtree push --prefix dist origin gh-pages
