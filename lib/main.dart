@@ -1,5 +1,4 @@
 import 'package:adrieldfwebsite/webgl_background.dart';
-import 'package:adrieldfwebsite/webgl_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:three_dart/three_dart.dart' as THREE;
 
