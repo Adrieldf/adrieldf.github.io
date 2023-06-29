@@ -103,6 +103,39 @@ function onMouseScroll(event) {
   renderer.render(scene, camera);
 }
 
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+// Add event listeners for mouse move and click events
+window.addEventListener('mousemove', onMouseMove);
+
+function onMouseMove(event) {
+  // Calculate normalized device coordinates
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  // Update the raycaster with the mouse position
+  raycaster.setFromCamera(mouse, camera);
+
+  // Find intersections between the raycaster and the dots and lines
+  const intersects = raycaster.intersectObjects([...dots, ...lines]);
+
+  // Reset the color of all dots and lines to white
+  dots.forEach(dot => (dot.material.color.set(0xffffff)));
+  lines.forEach(line => (line.material.color.set(0xffffff)));
+
+  // Change the color of the intersected dots and lines to red
+  intersects.forEach(intersect => {
+    const object = intersect.object;
+    object.material.color.set(0xff0000);
+  });
+
+  // Render the scene
+  renderer.render(scene, camera);
+}
+
+
+
 function animate() {
   requestAnimationFrame(animate);
 
