@@ -1,11 +1,33 @@
-canvas {
+.canvas-container {
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
-#app {
+
+#canvas {
   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.centered-div {
+  background-color: lightgray;
+  padding: 20px;
+}
+
 body,
 html {
   height: 100%;
@@ -40,7 +62,6 @@ html {
   height: 100vh;
   background-color: #3d3d3d;
   padding-right: 0px;
- 
 }
 a {
   border-bottom: 1px solid black;
@@ -59,9 +80,9 @@ a:hover {
   color: rgb(0, 0, 0);
 }
 .buttonTextColor:hover {
-  color: #ffffff; 
+  color: #ffffff;
   font-style: italic;
- }
+}
 
 .nav-pills .nav-link.active {
   background-color: #1d1d1dbb;
