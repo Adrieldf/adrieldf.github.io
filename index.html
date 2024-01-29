@@ -101,61 +101,134 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Developer Portfolio</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="./style.css">
-    <style>
-      body {
-        background-color: transparent;
-      }
-      
-      #home,
-      #projects,
-      #about,
-      #skills,
-      #contact {
-        padding-top: 100px;
-        padding-bottom: 100px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="canvas-container">
-      <canvas id="canvas"></canvas>
-    </div>
-    </div>
-<div>
-  <div>
-    
-    <section id="home" class="py-5">
-      <div class="container text-center">
-        <h1>Welcome to My Game Development Portfolio</h1>
-        <p class="lead" style="color: white;">
-          I am a passionate game developer, creating immersive and exciting
-          gaming experiences.
-        </p>
-      </div>
-     
-    </section>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Developer Portfolio</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    body {
+      background-color: transparent;
+    }
 
+    #home,
+    #projects,
+    #about,
+    #skills,
+    #contact {
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="canvas-container">
+    <canvas id="canvas"></canvas>
   </div>
+  </div>
+  <div>
+    <div class="clean-bg">
+      <section>
+        <div class="container mt-5">
+          <div class="row">
+            <div class=" ">
+              <h1>Welcome to My Game Development Portfolio</h1>
+              <p> I am a passionate game developer, creating immersive and exciting
+                gaming experiences.</p>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container mt-5">
+          <div class="row">
+            <div class=" ">
+              <h2>Contact Information</h2>
+              <p>Feel free to reach out to me through the following channels:</p>
+
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <i class="fas fa-envelope"></i>
+                  <a href="mailto:adriel.idf@gmail.com">adriel.idf@gmail.com</a>
+                </li>
+                <li class="mb-2">
+                  <i class="fab fa-github"></i>
+                  <a href="https://github.com/Adrieldf" target="_blank">GitHub</a>
+                </li>
+                <li class="mb-2">
+                  <i class="fab fa-linkedin"></i>
+                  <a href="https://www.linkedin.com/in/adrieldf/" target="_blank">LinkedIn</a>
+                </li>
+                <li class="mb-2">
+                  <i class="fab fa-itch-io"></i>
+                  <a href="https://adrieldf.itch.io/" target="_blank">Itch.io</a>
+                </li>
+
+                <!-- Add more social media links as needed -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container mt-5">
+          <div class="row">
+            <h2>Latest Projects</h2>
+
+          </div>
+          <!-- <div class="row">
+            <div class="project-container">
+              <img src="game1.jpg" alt="Dino Survival image" class="project-image">
+              <div class="project-details">
+                <div class="project-title">Dino Survival <i class="fab fa-unity"></i></div>
+                <div class="project-description">
+                  Currently in progress a 3D game for Android devices.
+                </div>
+                <div class="platform-icons">
+                  <a href="" target="_blank">
+                    <i class="fab fa-google-play"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="project-container">
+              <img src="https://img.itch.zone/aW1nLzEyMDI5NjM0LnBuZw==/315x250%23c/0xt1Nl.png"
+                alt="Purrfect Pizza & Fish Delivery image" class="project-image">
+              <div class="project-details">
+                <div class="project-title">Purrfect Pizza & Fish Delivery <i class="fab fa-unity"></i></div>
+                <div class="project-description">
+                  Ludum Dare 53 Compo - Unity
+                  A 2D action infinite runner where the player is a cat that delivers pizza and fish to
+                  other cats. It has a timing circle that rewards the player the more precise they are
+                  with the delivery. The jam theme was Delivery and the game was made by myself in
+                  48 hours from scratch.
+                </div>
+                <div class="platform-icons">
+                  <a href="https://adrieldf.itch.io/purrfect-pizza-fish-delivery" target="_blank">
+                    <i class="fab fa-itch-io"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script type="module" src="./index.js"></script>
-    <script
-      src="https://kit.fontawesome.com/c9fb13331b.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/c9fb13331b.js" crossorigin="anonymous"></script>
     <!-- <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -171,5 +244,6 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script> -->
-  </body>
+</body>
+
 </html>
