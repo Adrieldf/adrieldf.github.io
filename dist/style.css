@@ -1,3 +1,48 @@
+.clean-bg {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+.project-container {
+  display: flex;
+  margin: 20px;
+}
+
+.project-image {
+  width: 150px;
+  height: 150px;
+  margin-right: 20px;
+  object-fit: inherit;
+  border-radius: 8px;
+}
+
+.project-details {
+  flex: 1;
+}
+
+.project-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.project-description {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.platform-icons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.platform-icon {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+}
+
 .canvas-container {
   position: fixed;
   top: 0;
@@ -65,10 +110,10 @@ html {
 }
 a {
   border-bottom: 1px solid black;
-  width: 100%;
-  width: 100%;
+  /* width: 100%;
+  width: 100%; */
   padding: 10px 5px 5px 5px;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 a:hover {
   color: #a8a8a8;
@@ -77,10 +122,10 @@ a:hover {
 }
 .buttonTextColor {
   font-size: 25px;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 .buttonTextColor:hover {
-  color: #ffffff;
+  color: #a1a1a1;
   font-style: italic;
 }
 
@@ -120,7 +165,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #6d6d6d;
+  color: #ffffff;
 }
 
 .portifolioCardsMenu {
