@@ -19,7 +19,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.set(0, 0, 5);
 camera.lookAt(scene.position);
 
-const numTriangles = 50;
+const numTriangles = 100;
 const maxSpeed = 0.01;
 let maxX, maxY, maxZ, minX, minY, minZ;
 
