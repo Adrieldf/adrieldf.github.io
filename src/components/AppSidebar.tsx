@@ -43,13 +43,13 @@ const webItems = [
   },
   {
     title: "Shaders",
-    url: "#",
+    url: "shader",
     target: "_self",
     icon: FaStar,
   },
   {
     title: "Particles",
-    url: "#",
+    url: "particles",
     target: "_self",
     icon: FaFire,
   },
