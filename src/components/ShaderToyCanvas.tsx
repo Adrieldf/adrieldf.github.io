@@ -20,93 +20,169 @@ const shaders: Shader[] = [
   { name: "Mandelbrot", filePath: "/shaders/mandelbrot.glsl" },
   { name: "Seascape", filePath: "/shaders/seascape.glsl" },
   { name: "Starfield", filePath: "/shaders/starfield.glsl" },
-  // Add more shaders as needed
+  { name: "No Man's Sky Galaxy", filePath: "/shaders/nomanssky.glsl" },
 ];
 
 export default function ShaderToyCanvas() {
-  const [selectedShader, setSelectedShader] = useState<Shader>(shaders[1]);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const [currentShader, setCurrentShader] = useState<Shader>(shaders[0]);
+  const [renderer, setRenderer] = useState<THREE.WebGLRenderer | null>(null);
+  const [scene, setScene] = useState<THREE.Scene | null>(null);
+  const [camera, setCamera] = useState<THREE.Camera | null>(null);
+  //const [material, setMaterial] = useState<THREE.ShaderMaterial | null>(null);
+
+  const loadShader = async (shader: Shader) => {
+    try {
+      const response = await fetch(shader.filePath);
+      if (!response.ok) {
+        throw new Error(`Shader file not found: ${shader.name}`);
+      }
+      return await response.text();
+    } catch (error) {
+      console.error(error);
+      return "";
+    }
+  };
+
+  const cleanUpRenderer = () => {
+    if (renderer) {
+      renderer.dispose();
+    }
+
+    if (canvasRef.current) {
+      while (canvasRef.current.firstChild) {
+        canvasRef.current.removeChild(canvasRef.current.firstChild); // Remove all children
+      }
+    }
+  };
 
   useEffect(() => {
-    const loadShader = async (filePath: string) => {
-      const response = await fetch(filePath);
-      const shaderCode = await response.text();
-      return shaderCode;
-    };
-
-    const initShader = async () => {
-      const shaderCode = await loadShader(selectedShader.filePath);
-      createShaderScene(shaderCode);
-    };
-
-    const createShaderScene = (shaderCode: string) => {
+    const initThree = async () => {
       if (!canvasRef.current) return;
 
-      // Setup Three.js scene, camera, and renderer
-      const renderer = new THREE.WebGLRenderer();
-      const width = canvasRef.current.offsetWidth;
-      const height = canvasRef.current.offsetHeight;
+      cleanUpRenderer();
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(window.devicePixelRatio);
-      canvasRef.current.appendChild(renderer.domElement);
+      const rendererInstance = new THREE.WebGLRenderer({ antialias: true });
+      rendererInstance.setSize(width, height);
+      rendererInstance.setPixelRatio(window.devicePixelRatio);
+      canvasRef.current.appendChild(rendererInstance.domElement);
+      setRenderer(rendererInstance);
 
-      const scene = new THREE.Scene();
-      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-      camera.position.z = 1;
+      const sceneInstance = new THREE.Scene();
+      setScene(sceneInstance);
 
-      // Create a shader material using the selected shader code
-      const material = new THREE.ShaderMaterial({
+      const cameraInstance = new THREE.OrthographicCamera(
+        -1,
+        1,
+        1,
+        -1,
+        0.1,
+        10
+      );
+      cameraInstance.position.z = 1;
+      setCamera(cameraInstance);
+
+      const shaderCode = await loadShader(currentShader);
+
+      const gl = rendererInstance.getContext();
+      const fragmentShader = shaderCode;
+      
+      // Create shader object
+      const shader = gl.createShader(gl.FRAGMENT_SHADER);
+      if (!shader) throw new Error("Failed to create shader object");
+      
+      gl.shaderSource(shader, fragmentShader);
+      gl.compileShader(shader);
+      
+      // Check if shader compiled successfully
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        const info = gl.getShaderInfoLog(shader);
+        console.error("Shader compile error:", info);
+        console.error("Shader code:", fragmentShader);
+        throw new Error("Shader compile failed");
+      }
+
+      const materialInstance = new THREE.ShaderMaterial({
         fragmentShader: shaderCode,
         uniforms: {
           iResolution: { value: new THREE.Vector3(width, height, 1) },
           iTime: { value: 0 },
         },
       });
+      //setMaterial(materialInstance);
 
       const plane = new THREE.PlaneGeometry(2, 2);
-      const mesh = new THREE.Mesh(plane, material);
-      scene.add(mesh);
+      const mesh = new THREE.Mesh(plane, materialInstance);
+      sceneInstance.add(mesh);
 
-      // Handle resizing
       const handleResize = () => {
-        const newWidth = canvasRef.current?.offsetWidth || width;
-        const newHeight = canvasRef.current?.offsetHeight || height;
-
-        renderer.setSize(newWidth, newHeight);
-        material.uniforms.iResolution.value.set(newWidth, newHeight, 1);
+        const newWidth = window.innerWidth;
+        const newHeight = window.innerHeight;
+        rendererInstance.setSize(newWidth, newHeight);
+        materialInstance.uniforms.iResolution.value.set(newWidth, newHeight, 1);
       };
 
       window.addEventListener("resize", handleResize);
 
-      // Animation loop
       const clock = new THREE.Clock();
       const animate = () => {
-        material.uniforms.iTime.value = clock.getElapsedTime();
-        renderer.render(scene, camera);
+        if (materialInstance.uniforms.iTime) {
+          materialInstance.uniforms.iTime.value = clock.getElapsedTime();
+        }
+        rendererInstance.render(sceneInstance, cameraInstance);
         requestAnimationFrame(animate);
       };
+
       animate();
 
-      // Cleanup
       return () => {
         window.removeEventListener("resize", handleResize);
-        renderer.dispose();
+        rendererInstance.dispose();
       };
     };
 
-    initShader();
-  }, [selectedShader]);
+    initThree();
+  }, [currentShader]);
+
+  const handleShaderChange = async (shader: Shader) => {
+    if (!scene || !renderer || !camera) return;
+
+    const shaderCode = await loadShader(shader);
+
+    const newMaterial = new THREE.ShaderMaterial({
+      fragmentShader: shaderCode,
+      uniforms: {
+        iResolution: {
+          value: new THREE.Vector3(window.innerWidth, window.innerHeight, 1),
+        },
+        iTime: { value: 0 },
+      },
+    });
+
+    // Replace material
+    scene.children.forEach((child) => {
+      if ((child as THREE.Mesh).material) {
+        // (child as THREE.Mesh).material.dispose();
+        (child as THREE.Mesh).material = newMaterial;
+      }
+    });
+
+    //setMaterial(newMaterial);
+  };
 
   return (
-    <div ref={canvasRef} className="w-full h-full">
-      <div className="absolute top-4 left-4 z-10">
+    <>
+      <div className="absolute top-4 left-4 z-50">
         <Select
           onValueChange={(e) => {
             console.log(e);
-            setSelectedShader(shaders.find((shader) => shader.name === e)!);
+            const selectedShader = shaders.find((shader) => shader.name === e)!;
+            setCurrentShader(selectedShader);
+            handleShaderChange(selectedShader);
           }}
-          value={selectedShader.name}
+          value={currentShader.name}
         >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Theme" />
@@ -120,6 +196,7 @@ export default function ShaderToyCanvas() {
           </SelectContent>
         </Select>
       </div>
-    </div>
+      <div ref={canvasRef} className="w-full h-full"></div>
+    </>
   );
 }

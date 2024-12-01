@@ -1,84 +1,133 @@
-// components/ThreeScene.tsx
-'use client';
+"use client";
 
-import React, { useRef, useEffect } from 'react';
-import * as THREE from 'three';
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import Stats from "three/addons/libs/stats.module.js";
+import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-const ThreeBasic: React.FC = () => {
-  const mountRef = useRef<HTMLDivElement>(null);
+const ThreeBasicPage: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (!mountRef.current) return;
+    if (!canvasRef.current) return;
 
-    // === Scene Setup ===
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x1e1e1e); // Dark background
-
-    // === Camera Setup ===
-    const camera = new THREE.PerspectiveCamera(
-      75, // Field of View
-      mountRef.current.clientWidth / mountRef.current.clientHeight, // Aspect Ratio
-      0.1, // Near Clipping Plane
-      1000 // Far Clipping Plane
-    );
-    camera.position.z = 5; // Move camera away from origin
-
-    // === Renderer Setup ===
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+    const canvas = canvasRef.current;
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight - 50); // Adjusting for layout side menu
     renderer.setPixelRatio(window.devicePixelRatio);
-    mountRef.current.appendChild(renderer.domElement);
 
-    // === Adding a Rotating Cube ===
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    // Scene and Camera
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.set(0, 2, 6);
 
-    // === Adding Lighting ===
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft white light
+    // Stats
+    const stats = new Stats();
+    document.body.appendChild(stats.dom);
+
+    // GUI
+    const gui = new GUI();
+    gui.domElement.style.position = "absolute";
+    gui.domElement.style.top = "10px";
+    gui.domElement.style.right = "10px";
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(5, 10, 7.5);
-    scene.add(directionalLight);
+    const spotLight = new THREE.SpotLight(0xffffff, 1);
+    spotLight.position.set(0, 5, 0);
+    scene.add(spotLight);
 
-    // === Animation Loop ===
+    // Rotating Cube
+    const cubeGeometry = new THREE.BoxGeometry();
+    const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x44aa88 });
+    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    scene.add(cube);
+
+    // Shader Material for Sphere
+    const sphereGeometry = new THREE.SphereGeometry(0.75, 32, 32);
+    const shaderMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0.0 },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        varying vec2 vUv;
+        void main() {
+          vec3 color = vec3(0.5 + 0.5 * sin(uTime + vUv.x), 0.5 + 0.5 * cos(uTime + vUv.y), 1.0);
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `,
+    });
+    const sphere = new THREE.Mesh(sphereGeometry, shaderMaterial);
+    sphere.position.set(2, 0, 0);
+    scene.add(sphere);
+
+    // Orbit Controls
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+
+    // Resize Handler
+    const handleResize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight - 50; // Adjusting for layout side menu
+      renderer.setSize(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Animation Loop
+    const clock = new THREE.Clock();
     const animate = () => {
-      requestAnimationFrame(animate);
+      stats.begin();
 
-      // Rotate the cube
+      const elapsedTime = clock.getElapsedTime();
+      shaderMaterial.uniforms.uTime.value = elapsedTime;
+
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
 
+      controls.update();
       renderer.render(scene, camera);
+
+      stats.end();
+      requestAnimationFrame(animate);
     };
 
     animate();
 
-    // === Handle Resize with ResizeObserver ===
-    const resizeObserver = new ResizeObserver(() => {
-      if (!mountRef.current) return;
-      const width = mountRef.current.clientWidth;
-      const height = mountRef.current.clientHeight;
-      renderer.setSize(width, height);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-    });
-
-    resizeObserver.observe(mountRef.current);
-
-    // === Cleanup on Unmount ===
+    // Cleanup
     return () => {
-      resizeObserver.disconnect();
-      mountRef.current?.removeChild(renderer.domElement);
-      geometry.dispose();
-      material.dispose();
       renderer.dispose();
+      gui.destroy();
+      stats.dom.remove();
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  return <div ref={mountRef} className="w-full h-full" />;
+  return (
+    <div className="relative w-full h-full">
+      <canvas
+        ref={canvasRef}
+        className="absolute top-0 left-0 w-full h-full"
+      ></canvas>
+    </div>
+  );
 };
 
-export default ThreeBasic;
+export default ThreeBasicPage;

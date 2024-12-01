@@ -2,97 +2,79 @@
 
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import ResizeObserver from "resize-observer-polyfill";
 
 const ThreeBackground: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!mountRef.current) return;
-
-    // Scene setup
-    const scene = new THREE.Scene();
-
-    // Camera setup
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      mountRef.current.clientWidth / mountRef.current.clientHeight,
-      0.1,
-      1000
-    );
-    camera.position.z = 5;
-
-    // Renderer setup
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(
-      mountRef.current.clientWidth,
-      mountRef.current.clientHeight
-    );
-    renderer.setPixelRatio(window.devicePixelRatio);
-    mountRef.current.appendChild(renderer.domElement);
-
-    // Add particles
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 5000;
-    const positions = new Float32Array(particlesCount * 3);
-
-    for (let i = 0; i < particlesCount * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 100;
-    }
-
-    particlesGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(positions, 3)
-    );
-
-    const particlesMaterial = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.05,
-    });
-
-    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particles);
-
-    // Animation loop
-    const animate = () => {
-      requestAnimationFrame(animate);
-
-      particles.rotation.y += 0.001;
-
-      renderer.render(scene, camera);
+    const loadShader = async (filePath: string) => {
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+          throw new Error(`Shader file not found: ${filePath}`);
+        }
+        return await response.text();
+      } catch (error) {
+        console.error(error);
+        return "";
+      }
     };
 
-    animate();
+    const initShader = async () => {
+      const shaderCode = await loadShader("/shaders/nomanssky.glsl");
+      if (!shaderCode || !mountRef.current) return;
 
-    // Handle resize
-    const handleResize = () => {
-      if (!mountRef.current) return;
-      const width = mountRef.current.clientWidth;
-      const height = mountRef.current.clientHeight;
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
       renderer.setSize(width, height);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
+      renderer.setPixelRatio(window.devicePixelRatio);
+      mountRef.current.appendChild(renderer.domElement);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+      camera.position.z = 1;
+
+      const material = new THREE.ShaderMaterial({
+        fragmentShader: shaderCode,
+        uniforms: {
+          iResolution: { value: new THREE.Vector3(width, height, 1) },
+          iTime: { value: 0 },
+        },
+      });
+
+      const plane = new THREE.PlaneGeometry(2, 2);
+      const mesh = new THREE.Mesh(plane, material);
+      scene.add(mesh);
+
+      // Handle resizing
+      const handleResize = () => {
+        const newWidth = window.innerWidth;
+        const newHeight = window.innerHeight;
+        renderer.setSize(newWidth, newHeight);
+        material.uniforms.iResolution.value.set(newWidth, newHeight, 1);
+      };
+
+      window.addEventListener("resize", handleResize);
+
+      // Animation loop
+      const clock = new THREE.Clock();
+      const animate = () => {
+        material.uniforms.iTime.value = clock.getElapsedTime();
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      };
+
+      animate();
+
+      // Cleanup
+      return () => {
+        window.removeEventListener("resize", handleResize);
+        renderer.dispose();
+      };
     };
-
-    window.addEventListener("resize", handleResize);
-
-    const resizeObserver = new ResizeObserver(() => {
-      handleResize();
-    });
-
-    resizeObserver.observe(mountRef.current);
-
-    // Initial Resize to Set Correct Size
-    handleResize();
-
-    // Cleanup on unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      mountRef.current?.removeChild(renderer.domElement);
-      particlesGeometry.dispose();
-      particlesMaterial.dispose();
-      renderer.dispose();
-    };
+    initShader();
   }, []);
 
   return <div ref={mountRef} className="absolute w-full h-full top-0 left-0" />;

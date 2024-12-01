@@ -34,7 +34,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.170.0"
+    "three": "^0.171.0"
   },
   "devDependencies": {
     "@types/node": "^20",
