@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import ThreeBasic from '@/components/ThreeScene'; // Adjust the import path if necessary
+import ThreeBasic from '@/components/ThreeBasic'; // Adjust the import path if necessary
 import { Button } from '@/components/ui/button'; // Adjust based on your shadcn setup
 import Link from 'next/link';
 
