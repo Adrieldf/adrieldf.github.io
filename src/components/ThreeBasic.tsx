@@ -29,6 +29,7 @@ const ThreeBasic: React.FC = () => {
 
     // Stats
     const stats = new Stats();
+    
     document.body.appendChild(stats.dom);
 
     // GUI
@@ -94,8 +95,8 @@ const ThreeBasic: React.FC = () => {
     // Animation Loop
     const clock = new THREE.Clock();
     const animate = () => {
-      stats.begin();
-
+      // stats.begin();
+      stats.update();
       const elapsedTime = clock.getElapsedTime();
       shaderMaterial.uniforms.uTime.value = elapsedTime;
 
@@ -105,7 +106,7 @@ const ThreeBasic: React.FC = () => {
       controls.update();
       renderer.render(scene, camera);
 
-      stats.end();
+      // stats.end();
       requestAnimationFrame(animate);
     };
 

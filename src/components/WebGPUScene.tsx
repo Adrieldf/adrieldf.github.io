@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
-import * as THREE from 'three';
+import * as THREE  from "three/tsl";
 
-
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 const WebGPUScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -13,18 +12,23 @@ const WebGPUScene: React.FC = () => {
 
     const init = async () => {
       // Check WebGPU support
-      // if (!navigator.gpu) {
-      //   console.error('WebGPU not supported. Please use a compatible browser.');
-      //   return;
-      // }
+      if (!navigator.gpu) {
+        console.error("WebGPU not supported. Please use a compatible browser.");
+        return;
+      }
 
       // Create the renderer
-      const renderer = new THREE.WebGLRenderer({ /*canvas: canvasRef.current*/ });
+      const renderer = new THREE.WebGPURenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
 
       // Set up the scene
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
       camera.position.z = 5;
 
       // Add a rotating cube
@@ -58,10 +62,10 @@ const WebGPUScene: React.FC = () => {
         renderer.setSize(width, height);
       };
 
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
 
       return () => {
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener("resize", handleResize);
         renderer.dispose();
       };
     };
@@ -69,7 +73,11 @@ const WebGPUScene: React.FC = () => {
     init();
   }, []);
 
-  return <canvas ref={canvasRef} className="w-full h-full"></canvas>;
+  return (
+    <>
+      <canvas ref={canvasRef} className="w-full h-full"></canvas>
+    </>
+  );
 };
 
 export default WebGPUScene;

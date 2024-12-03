@@ -1,7 +1,9 @@
 import { TbBrandThreejs } from "react-icons/tb";
-import { FaFire, FaItchIo } from "react-icons/fa6";
+import { FaBug, FaCat, FaFire, FaItchIo, FaRobot, FaScissors } from "react-icons/fa6";
 import { FaHome, FaStar, FaGooglePlay } from "react-icons/fa";
 import { BsGpuCard } from "react-icons/bs";
+import { GiDinosaurRex, GiGrapple, GiSlime } from "react-icons/gi";
+import { BiSolidInvader } from "react-icons/bi";
 import {
   Sidebar,
   SidebarContent,
@@ -55,7 +57,7 @@ const webItems = [
   },
   {
     title: "WebGPU",
-    url: "#",
+    url: "webgpu",
     target: "_self",
     icon: BsGpuCard,
   },
@@ -72,6 +74,54 @@ const gameItems = [
     url: "https://play.google.com/store/apps/details?id=com.tubarogames.dinosurvival",
     target: "_blank",
     icon: FaGooglePlay,
+  },
+  {
+    title: "Purrfect Pizza & Fish Delivery",
+    url: "https://adrieldf.itch.io/purrfect-pizza-fish-delivery",
+    target: "_blank",
+    icon: FaCat,
+  },
+  {
+    title: "Grapple Against Time",
+    url: "https://adrieldf.itch.io/grapple-against-time",
+    target: "_blank",
+    icon: GiGrapple,
+  },
+  {
+    title: "Game Invaders",
+    url: "https://adrieldf.itch.io/game-invaders",
+    target: "_blank",
+    icon: BiSolidInvader,
+  },
+  {
+    title: "Bob, The Robot",
+    url: "https://adrieldf.itch.io/bob-the-robot",
+    target: "_blank",
+    icon: FaRobot,
+  },
+  {
+    title: "Keep the dinosaur alive",
+    url: "https://adrieldf.itch.io/keep-the-dinosaur-alive",
+    target: "_blank",
+    icon: GiDinosaurRex,
+  },
+  {
+    title: "Rock Paper Scissors Lies",
+    url: "https://adrieldf.itch.io/rock-paper-scissors-lies",
+    target: "_blank",
+    icon: FaScissors,
+  },
+  {
+    title: "Sam the Slime slayer",
+    url: "https://adrieldf.itch.io/sam-the-slime-slayer",
+    target: "_blank",
+    icon: GiSlime,
+  },
+  {
+    title: "Run Cockroach Run",
+    url: "https://adrieldf.itch.io/run-cockroach-run",
+    target: "_blank",
+    icon: FaBug,
   },
 ];
 
