@@ -1,5 +1,5 @@
 import { TbBrandThreejs } from "react-icons/tb";
-import { FaBug, FaCat, FaFire, FaItchIo, FaRobot, FaScissors } from "react-icons/fa6";
+import { FaBug, FaCat, FaFire, FaItchIo, FaList, FaRobot, FaScissors } from "react-icons/fa6";
 import { FaHome, FaStar, FaGooglePlay } from "react-icons/fa";
 import { BsGpuCard } from "react-icons/bs";
 import { GiDinosaurRex, GiGrapple, GiSlime } from "react-icons/gi";
@@ -60,6 +60,12 @@ const webItems = [
     url: "webgpu",
     target: "_self",
     icon: BsGpuCard,
+  },
+  {
+    title: "Dashboard",
+    url: "dashboard",
+    target: "_self",
+    icon: FaList,
   },
 ];
 const gameItems = [

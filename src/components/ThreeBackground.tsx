@@ -21,7 +21,7 @@ const ThreeBackground: React.FC = () => {
     };
 
     const initShader = async () => {
-      const shaderCode = await loadShader("/shaders/nomanssky.glsl");
+      const shaderCode = await loadShader("/shaders/galaxy.glsl");
       if (!shaderCode || !mountRef.current) return;
 
       const renderer = new THREE.WebGLRenderer({ antialias: true });
