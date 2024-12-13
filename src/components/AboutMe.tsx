@@ -7,8 +7,6 @@ export function AboutMe() {
   const fullName = "Adriel Izoton de Faci";
   const role = "Senior 3D Web Developer | Game Developer";
   const locationDescription = "Caxias do Sul - RS, Brazil";
-  const aboutMeDescription =
-    "I have over eight years of experience as a developer, working with TypeScript, WebGL, React and other technologies. I've also created several games using Unity and C#. I focus on writing efficient code, keeping clear documentation, and thoroughly testing my projects. I like to stay updated with new technologies and have experience working remotely with teams from around the world.";
 
   return (
     <div className="relative z-10 max-w-4xl mx-auto p-6 bg-gray-800 bg-opacity-75 rounded-lg shadow-lg mt-20 md:mt-0">
@@ -22,19 +20,26 @@ export function AboutMe() {
       </div>
 
       <SocialButtons />
-      <Separator className="bg-slate-600 mt-4"/>
+      <Separator className="bg-slate-600 mt-4" />
 
       <div className="mt-6">
-        <h2 className="text-2xl font-semibold mb-2">About Me</h2>
-        <p className="text-gray-300">{aboutMeDescription}</p>
+        <h2 className="text-2xl font-semibold mb-2">Hello!</h2>
+        <p className="text-gray-300">
+          I&apos;m a Brazilian web developer with over 8 years of programming
+          experience. Working with teams from different cultures and
+          nationalities has enriched my communication skills both in English and
+          Portuguese as well as making me a strong team player. I&apos;m
+          proactive and always strive to find the best solutions, delivering
+          high-quality and reliable code. My experience includes code reviews,
+          technical documentation, and providing support to my team. In my free
+          time, I enjoy creating games to stimulate my creativity and combine
+          two things I love: coding and gaming. I&apos;m committed to be
+          continuously improving my skills and learn new technologies.
+        </p>
+        <p className="text-gray-300">You can find my socials on the icons above if you want to reach out for a conversation.</p>
+        <p className="text-gray-300">Feel free to navigate and explore all my projects on the left side bar.</p>
       </div>
-
-
-      <Separator className="bg-slate-600 mt-4"/>
-      <div className="mt-6">
-        <h2 className="text-2xl font-semibold mb-2">Experience</h2>
-        <p className="text-gray-300"></p>
-      </div>
+      <Separator className="bg-slate-600 mt-4" />
     </div>
   );
 }
