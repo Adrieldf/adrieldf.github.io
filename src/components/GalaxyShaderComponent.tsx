@@ -63,7 +63,7 @@ const GalaxyShaderComponent = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
             // eslint-disable-next-line react-hooks/exhaustive-deps
-            mountRef.current.removeChild(renderer.domElement);
+            mountRef.current?.removeChild(renderer.domElement);
         };
     }, [shaders]);
 
