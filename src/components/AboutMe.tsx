@@ -21,25 +21,27 @@ export function AboutMe() {
 
       <SocialButtons />
       <Separator className="bg-slate-600 mt-4" />
+      <div className="flex flex-col items-start justify-center">
+        <div className="mt-6">
+          <h2 className="text-2xl font-semibold mb-2">Hello!</h2>
+          <p className="text-gray-300">
 
-      <div className="mt-6">
-        <h2 className="text-2xl font-semibold mb-2">Hello!</h2>
-        <p className="text-gray-300">
-          I&apos;m a Brazilian web developer with over 8 years of programming
-          experience. Working with teams from different cultures and
-          nationalities has enriched my communication skills both in English and
-          Portuguese as well as making me a strong team player. I&apos;m
-          proactive and always strive to find the best solutions, delivering
-          high-quality and reliable code. My experience includes code reviews,
-          technical documentation, and providing support to my team. In my free
-          time, I enjoy creating games to stimulate my creativity and combine
-          two things I love: coding and gaming. I&apos;m committed to be
-          continuously improving my skills and learn new technologies.
-        </p>
-        <p className="text-gray-300">You can find my socials on the icons above if you want to reach out for a conversation.</p>
-        <p className="text-gray-300">Feel free to navigate and explore all my projects on the left side bar.</p>
+            I&apos;m a Brazilian web developer with over 8 years of programming
+            experience. Working with teams from different cultures and
+            nationalities has enriched my communication skills both in English and
+            Portuguese as well as making me a strong team player. I&apos;m
+            proactive and always strive to find the best solutions, delivering
+            high-quality and reliable code. My experience includes code reviews,
+            technical documentation, and providing support to my team. In my free
+            time, I enjoy creating games to stimulate my creativity and combine
+            two things I love: coding and gaming. I&apos;m committed to be
+            continuously improving my skills and learn new technologies.
+          </p>
+          <p className="text-gray-300">You can find my socials on the icons above if you want to reach out for a conversation.</p>
+          <p className="text-gray-300">Feel free to navigate and explore all my projects on the left side bar.</p>
+        </div>
+        <Separator className="bg-slate-600 mt-4" />
       </div>
-      <Separator className="bg-slate-600 mt-4" />
     </div>
   );
 }

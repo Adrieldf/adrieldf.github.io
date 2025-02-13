@@ -2,7 +2,7 @@ import { TbBrandThreejs } from "react-icons/tb";
 import { FaBug, FaCat, FaFire, FaItchIo, FaList, FaRobot, FaScissors } from "react-icons/fa6";
 import { FaHome, FaStar, FaGooglePlay } from "react-icons/fa";
 import { BsGpuCard } from "react-icons/bs";
-import { GiDinosaurRex, GiGrapple, GiSlime } from "react-icons/gi";
+import { GiDinosaurRex, GiGrapple, GiSlime, GiCubeforce } from "react-icons/gi";
 import { BiSolidInvader } from "react-icons/bi";
 import {
   Sidebar,
@@ -44,10 +44,16 @@ const webItems = [
     icon: TbBrandThreejs,
   },
   {
-    title: "Shaders",
+    title: "Shader Loader",
     url: "shader",
     target: "_self",
     icon: FaStar,
+  },
+  {
+    title: "GLB Loader",
+    url: "glbloader",
+    target: "_self",
+    icon: GiCubeforce,
   },
   {
     title: "Particles",

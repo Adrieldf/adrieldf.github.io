@@ -37,6 +37,11 @@ const ThreeBackground: React.FC = () => {
       camera.position.z = 1;
 
       const material = new THREE.ShaderMaterial({
+        vertexShader: `
+          void main() {
+            gl_Position = vec4(position, 1.0);
+          }
+        `,
         fragmentShader: shaderCode,
         uniforms: {
           iResolution: { value: new THREE.Vector3(width, height, 1) },
@@ -44,6 +49,7 @@ const ThreeBackground: React.FC = () => {
         },
       });
 
+      const gl = renderer.getContext();
       const plane = new THREE.PlaneGeometry(2, 2);
       const mesh = new THREE.Mesh(plane, material);
       scene.add(mesh);
@@ -61,7 +67,9 @@ const ThreeBackground: React.FC = () => {
       // Animation loop
       const clock = new THREE.Clock();
       const animate = () => {
-        material.uniforms.iTime.value = clock.getElapsedTime();
+        const elapsedTime = clock.getElapsedTime();
+        
+        material.uniforms.iTime.value = elapsedTime;
         renderer.render(scene, camera);
         requestAnimationFrame(animate);
       };

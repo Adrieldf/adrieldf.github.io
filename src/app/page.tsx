@@ -6,7 +6,7 @@ import { AboutMe } from "@/components/AboutMe";
 
 const Home: React.FC = () => {
   return (
-    <div className=" flex items-center justify-center relative w-full min-h-screen bg-gray-900 text-white overflow-hidden">
+    <div className="flex items-center justify-center relative w-full h-screen bg-gray-900 text-white overflow-hidden">
       <ThreeBackground />
       <AboutMe />
     </div>

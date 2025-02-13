@@ -15,8 +15,8 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
-      <body className="antialiased">
+    <html lang="en" className="overflow-hidden">
+      <body className="overflow-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
