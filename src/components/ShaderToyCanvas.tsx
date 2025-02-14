@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import * as THREE from "three";
 import {
   Select,
@@ -19,7 +19,7 @@ export default function ShaderToyCanvas() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [shaders, setShaders] = useState<Shader[]>([]);
   const [currentShader, setCurrentShader] = useState<Shader | null>(null);
-  const [renderer, setRenderer] = useState<THREE.WebGLRenderer | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
 
   // Load available shaders
   useEffect(() => {
@@ -59,9 +59,10 @@ export default function ShaderToyCanvas() {
     }
   };
 
-  const cleanUpRenderer = () => {
-    if (renderer) {
-      renderer.dispose();
+  const cleanUpRenderer = useCallback(() => {
+    if (rendererRef.current) {
+      rendererRef.current.dispose();
+      rendererRef.current = null;
     }
 
     if (canvasRef.current) {
@@ -69,7 +70,7 @@ export default function ShaderToyCanvas() {
         canvasRef.current.removeChild(canvasRef.current.firstChild);
       }
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (!currentShader) return;
@@ -81,7 +82,6 @@ export default function ShaderToyCanvas() {
       const width = window.innerWidth;
       const height = window.innerHeight;
 
-      // Add scene and camera
       const scene = new THREE.Scene();
       const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
       camera.position.z = 1;
@@ -90,7 +90,7 @@ export default function ShaderToyCanvas() {
       rendererInstance.setSize(width, height);
       rendererInstance.setPixelRatio(window.devicePixelRatio);
       canvasRef.current.appendChild(rendererInstance.domElement);
-      setRenderer(rendererInstance);
+      rendererRef.current = rendererInstance;
 
       const shaderCode = await loadShader(currentShader);
 
@@ -137,6 +137,10 @@ export default function ShaderToyCanvas() {
     };
 
     initThree();
+
+    return () => {
+      cleanUpRenderer();
+    };
   }, [currentShader, cleanUpRenderer]);
 
   return (
