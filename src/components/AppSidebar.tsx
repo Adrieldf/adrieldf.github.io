@@ -32,18 +32,6 @@ const webItems = [
     icon: TbBrandThreejs,
   },
   {
-    title: "Three.js High Quality",
-    url: "#",
-    target: "_self",
-    icon: TbBrandThreejs,
-  },
-  {
-    title: "Three.js City",
-    url: "#",
-    target: "_self",
-    icon: TbBrandThreejs,
-  },
-  {
     title: "Shader Loader",
     url: "shader",
     target: "_self",
