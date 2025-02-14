@@ -5,259 +5,270 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { Label } from './ui/label';
 import { Slider } from './ui/slider';
-
+import { Card } from './ui/card';
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 
 interface Particle {
   mesh: THREE.Mesh;
   velocity: { x: number; y: number };
 }
 
-const PhysicsParticleSystem2D: React.FC = () => {
+const PhysicsParticleSystem: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<Particle[]>([]);
-  const animationIdRef = useRef<number>();
+  const mouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
+  const [particleCount, setParticleCount] = useState<number>(100);
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 20, y: 20 });
+  const dragStartRef = useRef({ x: 0, y: 0 });
 
-  useEffect(() => {
-    // Capture ref value at the start of effect
-    const currentParticles = particlesRef.current;
-    
-    if (!mountRef.current) return;
+  const handleDragStart = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    dragStartRef.current = {
+      x: e.clientX - position.x,
+      y: e.clientY - position.y,
+    };
+  };
 
-    /** ======================
-     * THREE.JS SETUP
-     * ====================== */
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000); // Black background
-
-    // Get the dimensions of the mount element
-    const width = mountRef.current.clientWidth;
-    const height = mountRef.current.clientHeight;
-
-    // Create an Orthographic Camera for 2D rendering
-    const camera = new THREE.OrthographicCamera(
-      width / -2, // left
-      width / 2,  // right
-      height / 2, // top
-      height / -2, // bottom
-      0.1, // near
-      1000 // far
-    );
-    camera.position.z = 10; // Position the camera slightly away from the scene
-
-    // Create the WebGL Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    mountRef.current.appendChild(renderer.domElement);
-
-    /** ======================
-     * PARTICLE CREATION
-     * ====================== */
-    const particleCount = 100; // Number of particles
-    const particleRadius = 5;  // Radius of each particle
-
-    // Create a shared material for all particles
-    const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-
-    for (let i = 0; i < particleCount; i++) {
-      const geometry = new THREE.CircleGeometry(particleRadius, 32);
-      const mesh = new THREE.Mesh(geometry, particleMaterial.clone());
-
-      // Random initial position within the viewport, considering radius
-      const posX = Math.random() * (width - 2 * particleRadius) - (width / 2 - particleRadius);
-      const posY = Math.random() * (height - 2 * particleRadius) - (height / 2 - particleRadius);
-      mesh.position.set(posX, posY, 0);
-
-      scene.add(mesh);
-      particlesRef.current.push({
-        mesh,
-        velocity: {
-          x: (Math.random() - 0.5) * 200, // pixels per second
-          y: (Math.random() - 0.5) * 200,
-        },
+  const handleDrag = (e: MouseEvent) => {
+    if (isDragging) {
+      setPosition({
+        x: e.clientX - dragStartRef.current.x,
+        y: e.clientY - dragStartRef.current.y,
       });
     }
+  };
 
-    /** ======================
-     * ANIMATION LOOP
-     * ====================== */
-    const clock = new THREE.Clock();
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
 
-    const animate = () => {
-      animationIdRef.current = requestAnimationFrame(animate);
-
-      const delta = clock.getDelta(); // Time elapsed since last frame in seconds
-
-      // Update particle positions based on velocity and speedMultiplier
-      particlesRef.current.forEach((particle) => {
-        particle.mesh.position.x += particle.velocity.x * delta * speedMultiplier;
-        particle.mesh.position.y += particle.velocity.y * delta * speedMultiplier;
-      });
-
-      // Handle collisions with walls
-      particlesRef.current.forEach((particle) => {
-        const { x, y } = particle.mesh.position;
-
-        // Left Wall
-        if (x - particleRadius < -width / 2) {
-          particle.mesh.position.x = -width / 2 + particleRadius;
-          particle.velocity.x *= -1;
-        }
-
-        // Right Wall
-        if (x + particleRadius > width / 2) {
-          particle.mesh.position.x = width / 2 - particleRadius;
-          particle.velocity.x *= -1;
-        }
-
-        // Bottom Wall
-        if (y - particleRadius < -height / 2) {
-          particle.mesh.position.y = -height / 2 + particleRadius;
-          particle.velocity.y *= -1;
-        }
-
-        // Top Wall
-        if (y + particleRadius > height / 2) {
-          particle.mesh.position.y = height / 2 - particleRadius;
-          particle.velocity.y *= -1;
-        }
-      });
-
-      // Handle collisions between particles
-      for (let i = 0; i < particlesRef.current.length; i++) {
-        for (let j = i + 1; j < particlesRef.current.length; j++) {
-          const p1 = particlesRef.current[i];
-          const p2 = particlesRef.current[j];
-
-          const dx = p2.mesh.position.x - p1.mesh.position.x;
-          const dy = p2.mesh.position.y - p1.mesh.position.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const minDist = 2 * particleRadius;
-
-          if (distance < minDist) {
-            // Calculate overlap
-            const overlap = minDist - distance;
-
-            // Normalize the collision vector
-            const nx = dx / distance;
-            const ny = dy / distance;
-
-            // Push particles apart based on overlap
-            p1.mesh.position.x -= (overlap / 2) * nx;
-            p1.mesh.position.y -= (overlap / 2) * ny;
-            p2.mesh.position.x += (overlap / 2) * nx;
-            p2.mesh.position.y += (overlap / 2) * ny;
-
-            // Calculate relative velocity
-            const dvx = p2.velocity.x - p1.velocity.x;
-            const dvy = p2.velocity.y - p1.velocity.y;
-
-            // Calculate velocity along the normal
-            const vn = dvx * nx + dvy * ny;
-
-            // If particles are moving away, skip
-            if (vn > 0) continue;
-
-            // Calculate restitution (elastic collision)
-            const restitution = 0.7;
-
-            // Impulse scalar
-            const impulse = -(1 + restitution) * vn / 2; // mass=1 for both
-
-            // Apply impulse to the velocities
-            p1.velocity.x -= impulse * nx;
-            p1.velocity.y -= impulse * ny;
-            p2.velocity.x += impulse * nx;
-            p2.velocity.y += impulse * ny;
-          }
-        }
-      }
-
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    /** ======================
-     * HANDLE RESIZE
-     * ====================== */
-    const handleResize = () => {
-      if (!mountRef.current) return;
-      const newWidth = mountRef.current.clientWidth;
-      const newHeight = mountRef.current.clientHeight;
-      renderer.setSize(newWidth, newHeight);
-      camera.left = newWidth / -2;
-      camera.right = newWidth / 2;
-      camera.top = newHeight / 2;
-      camera.bottom = newHeight / -2;
-      camera.updateProjectionMatrix();
-    };
-
-    const resizeObserver = new ResizeObserver(handleResize);
-    resizeObserver.observe(mountRef.current);
-
-    /** ======================
-     * CLEANUP ON UNMOUNT
-     * ====================== */
+  useEffect(() => {
+    document.addEventListener('mousemove', handleDrag);
+    document.addEventListener('mouseup', handleDragEnd);
     return () => {
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
+      document.removeEventListener('mousemove', handleDrag);
+      document.removeEventListener('mouseup', handleDragEnd);
+    };
+  }, [isDragging]);
+
+  useEffect(() => {
+    if (!mountRef.current) return;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+    let animationFrameId: number;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Clear previous canvas if it exists
+    while (mountRef.current.firstChild) {
+      mountRef.current.removeChild(mountRef.current.firstChild);
+    }
+    mountRef.current.appendChild(renderer.domElement);
+
+    // Mouse tracking
+    const handleMouseMove = (event: MouseEvent) => {
+      const rect = mountRef.current?.getBoundingClientRect();
+      if (rect) {
+        mouseRef.current = {
+          x: event.clientX - rect.left - rect.width / 2,
+          y: -(event.clientY - rect.top - rect.height / 2),
+        };
       }
+    };
+    mountRef.current.addEventListener('mousemove', handleMouseMove);
 
-      resizeObserver.disconnect();
-
-      // Dispose of particle geometries and materials
-      currentParticles.forEach((particle) => {
+    // Create particles
+    const createParticles = () => {
+      // Clear existing particles
+      particlesRef.current.forEach(particle => {
         particle.mesh.geometry.dispose();
         (particle.mesh.material as THREE.Material).dispose();
         scene.remove(particle.mesh);
       });
+      particlesRef.current = [];
 
-      // Dispose of Three.js renderer
-      renderer.dispose();
-      scene.clear();
+      const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const particleRadius = 2;
 
-      // Remove renderer's canvas
-      mountRef.current?.removeChild(renderer.domElement);
-    };
-  }, [speedMultiplier]); // Re-run effect when speedMultiplier changes
+      for (let i = 0; i < particleCount; i++) {
+        const geometry = new THREE.CircleGeometry(particleRadius, 16);
+        const mesh = new THREE.Mesh(geometry, particleMaterial.clone());
 
-  useEffect(() => {
-    // Capture ref value at the start of effect
-    const currentMount = mountRef.current;
-    
-    // Rest of the effect code...
+        const posX = Math.random() * window.innerWidth - window.innerWidth / 2;
+        const posY = Math.random() * window.innerHeight - window.innerHeight / 2;
+        mesh.position.set(posX, posY, 0);
 
-    return () => {
-      // Use captured value in cleanup
-      if (currentMount) {
-        // cleanup code
+        // Increase base speed for more visible movement
+        const baseSpeed = 100 * speedMultiplier;
+        const angle = Math.random() * Math.PI * 2;
+
+        scene.add(mesh);
+        particlesRef.current.push({
+          mesh,
+          velocity: {
+            x: Math.cos(angle) * baseSpeed,
+            y: Math.sin(angle) * baseSpeed,
+          },
+        });
       }
     };
-  }, []);
+
+    createParticles();
+
+    const clock = new THREE.Clock();
+    const camera = new THREE.OrthographicCamera(
+      window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 0.1, 1000
+    );
+    camera.position.z = 10;
+    const animate = () => {
+      const delta = clock.getDelta();
+
+      particlesRef.current.forEach((particle) => {
+        // Update position first
+        particle.mesh.position.x += particle.velocity.x * delta;
+        particle.mesh.position.y += particle.velocity.y * delta;
+
+        // Check mouse repulsion
+        const dx = particle.mesh.position.x - mouseRef.current.x;
+        const dy = particle.mesh.position.y - mouseRef.current.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const repulsionRadius = 100;
+
+        if (distance < repulsionRadius) {
+          const angle = Math.atan2(dy, dx);
+          const currentSpeed = Math.sqrt(
+            particle.velocity.x * particle.velocity.x +
+            particle.velocity.y * particle.velocity.y
+          );
+          particle.velocity.x = Math.cos(angle) * currentSpeed;
+          particle.velocity.y = Math.sin(angle) * currentSpeed;
+        }
+
+        // Bounce off walls
+        if (particle.mesh.position.x <= -window.innerWidth / 2 || particle.mesh.position.x >= window.innerWidth / 2) {
+          particle.velocity.x *= -1;
+        }
+        if (particle.mesh.position.y <= -window.innerHeight / 2 || particle.mesh.position.y >= window.innerHeight / 2) {
+          particle.velocity.y *= -1;
+        }
+      });
+
+      renderer.render(scene, camera);
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+
+
+    const updateSize = () => {
+      const sidebar = document.querySelector('[data-sidebar]');
+      const sidebarWidth = sidebar?.clientWidth || 0;
+      const width = window.innerWidth - sidebarWidth;
+      const height = window.innerHeight;
+
+      if (renderer && camera) {
+        renderer.setSize(width, height);
+        camera.left = width / -2;
+        camera.right = width / 2;
+        camera.top = height / 2;
+        camera.bottom = height / -2;
+        camera.updateProjectionMatrix();
+
+        // Update particle boundaries when resizing
+        particlesRef.current.forEach(particle => {
+          if (particle.mesh.position.x < -width / 2) particle.mesh.position.x = -width / 2;
+          if (particle.mesh.position.x > width / 2) particle.mesh.position.x = width / 2;
+          if (particle.mesh.position.y < -height / 2) particle.mesh.position.y = -height / 2;
+          if (particle.mesh.position.y > height / 2) particle.mesh.position.y = height / 2;
+        });
+      }
+    };
+
+    // Listen for sidebar transitions
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(updateSize);
+    });
+
+    const sidebar = document.querySelector('[data-sidebar]');
+    if (sidebar) {
+      resizeObserver.observe(sidebar);
+    }
+
+    // Also listen for window resize
+    window.addEventListener('resize', () => {
+      requestAnimationFrame(updateSize);
+    });
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', () => {
+        requestAnimationFrame(updateSize);
+      });
+      mountRef.current?.removeEventListener('mousemove', handleMouseMove);
+      renderer.dispose();
+      particlesRef.current.forEach(particle => {
+        particle.mesh.geometry.dispose();
+        (particle.mesh.material as THREE.Material).dispose();
+      });
+    };
+  }, [particleCount, speedMultiplier]);
 
   return (
-    <div className="w-full h-full flex flex-col items-center">
-      {/* Sliders to control speed */}
-      <div className="mb-4 w-1/3">
-        <Label htmlFor="speed-slider" className="block text-sm font-medium text-white mb-1">
-          Speed Multiplier: {speedMultiplier.toFixed(1)}x
-        </Label>
-        <Slider
-          id="speed-slider"
-          min={0.1}
-          max={3}
-          step={0.1}
-          value={[speedMultiplier]}
-          onValueChange={(value: number[]) => setSpeedMultiplier(value[0])}
-        />
-      </div>
+    <div className="relative w-full h-screen overflow-hidden">
+      <Card
+        className="absolute z-10 p-4 w-80 cursor-move max-w-[90vw]"
+        style={{ left: position.x, top: position.y }}
+      >
+        <div
+          className="flex items-center mb-4 cursor-grab active:cursor-grabbing"
+          onMouseDown={handleDragStart}
+        >
+          <DragHandleDots2Icon className="w-6 h-6 mr-2" />
+          <h3 className="font-semibold">Particle Controls</h3>
+        </div>
 
-      {/* Three.js Canvas */}
-      <div ref={mountRef} className="w-full h-full" />
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="speed-slider">
+              Speed Multiplier: {speedMultiplier.toFixed(1)}x
+            </Label>
+            <Slider
+              id="speed-slider"
+              min={0.1}
+              max={3}
+              step={0.1}
+              value={[speedMultiplier]}
+              onValueChange={(value) => setSpeedMultiplier(value[0])}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="particle-count">
+              Particle Count: {particleCount}
+            </Label>
+            <Slider
+              id="particle-count"
+              min={100}
+              max={1000}
+              step={10}
+              value={[particleCount]}
+              onValueChange={(value) => setParticleCount(value[0])}
+            />
+          </div>
+        </div>
+      </Card>
+
+      <div ref={mountRef} className="w-full h-full" style={{ outline: 'none' }} />
     </div>
   );
 };
 
-export default PhysicsParticleSystem2D;
+export default PhysicsParticleSystem;

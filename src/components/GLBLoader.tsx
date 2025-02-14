@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls as OrbitControlsImpl, useGLTF, Html, Center, Environment } from "@react-three/drei";
+import { OrbitControls as OrbitControlsImpl, useGLTF, useAnimations, Html, Center, Environment } from "@react-three/drei";
 import {
   Select,
   SelectContent,
@@ -91,9 +91,32 @@ function Lighting() {
 }
 
 function Model({ path }: { path: string }) {
-  const { scene } = useGLTF(path);
+  const { scene, animations } = useGLTF(path);
+  const { actions, names } = useAnimations(animations, scene);
   const controlsRef = useRef<any>(null);
 
+  // Animation effect
+  useEffect(() => {
+    // Play all animations
+    names.forEach((name) => {
+      const action = actions[name];
+      if (action) {
+        action.reset().play();
+      }
+    });
+
+    return () => {
+      // Stop all animations on cleanup
+      names.forEach((name) => {
+        const action = actions[name];
+        if (action) {
+          action.stop();
+        }
+      });
+    };
+  }, [actions, names]);
+
+  // Camera positioning effect
   useEffect(() => {
     const box = new THREE.Box3().setFromObject(scene);
     const center = box.getCenter(new THREE.Vector3());
@@ -110,6 +133,7 @@ function Model({ path }: { path: string }) {
     }
   }, [scene]);
 
+  // Material setup
   scene.traverse((child) => {
     if (child instanceof THREE.Mesh) {
       if (child.material) {
@@ -221,6 +245,24 @@ export default function GLBLoader() {
                 className="text-primary hover:text-primary/80 underline underline-offset-4"
               >
                 Frank
+              </a>
+              <br />
+              <a
+                href="https://sketchfab.com/3d-models/skull-salazar-downloadable-eeed09437afb4e1ea8a6ff3b0e9964ad"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 underline underline-offset-4"
+              >
+                Skull Salazar
+              </a>
+              <br />
+              <a
+                href="https://sketchfab.com/3d-models/black-dragon-with-idle-animation-fb0053a2e59b43868e934c239bf4eb36"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 underline underline-offset-4"
+              >
+                Black Dragon with Idle Animation
               </a>
               <br />
               All credit goes to the creators of the models.
