@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/dialog";
 import { InfoIcon } from "lucide-react";
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import type { OrbitControlsProps } from "@react-three/drei";
+import { OrbitControls as OrbitControlsType } from '@react-three/drei/core/OrbitControls';
 
 interface Model {
   name: string;
@@ -89,7 +92,7 @@ function Lighting() {
 
 function Model({ path }: { path: string }) {
   const { scene } = useGLTF(path);
-  const controlsRef = useRef<typeof OrbitControlsImpl>(null);
+  const controlsRef = useRef<any>(null);
 
   useEffect(() => {
     const box = new THREE.Box3().setFromObject(scene);

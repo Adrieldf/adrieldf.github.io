@@ -81,6 +81,11 @@ export default function ShaderToyCanvas() {
       const width = window.innerWidth;
       const height = window.innerHeight;
 
+      // Add scene and camera
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+      camera.position.z = 1;
+
       const rendererInstance = new THREE.WebGLRenderer({ antialias: true });
       rendererInstance.setSize(width, height);
       rendererInstance.setPixelRatio(window.devicePixelRatio);
@@ -104,7 +109,7 @@ export default function ShaderToyCanvas() {
 
       const plane = new THREE.PlaneGeometry(2, 2);
       const mesh = new THREE.Mesh(plane, material);
-      sceneInstance.add(mesh);
+      scene.add(mesh);
 
       const handleResize = () => {
         const newWidth = window.innerWidth;
@@ -119,7 +124,7 @@ export default function ShaderToyCanvas() {
       const animate = () => {
         const elapsedTime = clock.getElapsedTime();
         material.uniforms.iTime.value = elapsedTime;
-        rendererInstance.render(sceneInstance, cameraInstance);
+        rendererInstance.render(scene, camera);
         requestAnimationFrame(animate);
       };
 
