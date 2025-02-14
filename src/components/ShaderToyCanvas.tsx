@@ -20,8 +20,6 @@ export default function ShaderToyCanvas() {
   const [shaders, setShaders] = useState<Shader[]>([]);
   const [currentShader, setCurrentShader] = useState<Shader | null>(null);
   const [renderer, setRenderer] = useState<THREE.WebGLRenderer | null>(null);
-  const [scene, setScene] = useState<THREE.Scene | null>(null);
-  const [camera, setCamera] = useState<THREE.Camera | null>(null);
 
   // Load available shaders
   useEffect(() => {
@@ -89,13 +87,6 @@ export default function ShaderToyCanvas() {
       canvasRef.current.appendChild(rendererInstance.domElement);
       setRenderer(rendererInstance);
 
-      const sceneInstance = new THREE.Scene();
-      setScene(sceneInstance);
-
-      const cameraInstance = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-      cameraInstance.position.z = 1;
-      setCamera(cameraInstance);
-
       const shaderCode = await loadShader(currentShader);
 
       const material = new THREE.ShaderMaterial({
@@ -141,7 +132,7 @@ export default function ShaderToyCanvas() {
     };
 
     initThree();
-  }, [currentShader]);
+  }, [currentShader, cleanUpRenderer]);
 
   return (
     <>

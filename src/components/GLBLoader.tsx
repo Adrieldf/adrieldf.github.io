@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useProgress, useGLTF, Html, Center, Environment } from "@react-three/drei";
+import { OrbitControls as OrbitControlsImpl, useGLTF, Html, Center, Environment } from "@react-three/drei";
 import {
   Select,
   SelectContent,
@@ -89,7 +89,7 @@ function Lighting() {
 
 function Model({ path }: { path: string }) {
   const { scene } = useGLTF(path);
-  const controlsRef = useRef<any>();
+  const controlsRef = useRef<typeof OrbitControlsImpl>(null);
 
   useEffect(() => {
     const box = new THREE.Box3().setFromObject(scene);
@@ -98,11 +98,11 @@ function Model({ path }: { path: string }) {
     const radius = Math.max(size.x, size.y, size.z) * 0.5;
     const fov = 50;
     const idealDistance = (radius * 1.0) / Math.tan((fov * 0.5) * Math.PI / 180);
-
     if (controlsRef.current) {
       const controls = controlsRef.current;
-      controls.target.copy(center);
-      controls.object.position.copy(center.clone().add(new THREE.Vector3(idealDistance, idealDistance * 0.5, idealDistance)));
+      controls.target.set(center.x, center.y, center.z);
+      const newPosition = center.clone().add(new THREE.Vector3(idealDistance, idealDistance * 0.5, idealDistance));
+      controls.object.position.set(newPosition.x, newPosition.y, newPosition.z);
       controls.update();
     }
   }, [scene]);
@@ -121,7 +121,7 @@ function Model({ path }: { path: string }) {
     <Center>
       <Lighting />
       <primitive object={scene} />
-      <OrbitControls
+      <OrbitControlsImpl
         ref={controlsRef}
         makeDefault
         enableDamping={false}

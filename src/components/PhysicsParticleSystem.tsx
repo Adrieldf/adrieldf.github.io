@@ -19,6 +19,9 @@ const PhysicsParticleSystem2D: React.FC = () => {
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1);
 
   useEffect(() => {
+    // Capture ref value at the start of effect
+    const currentParticles = particlesRef.current;
+    
     if (!mountRef.current) return;
 
     /** ======================
@@ -205,7 +208,7 @@ const PhysicsParticleSystem2D: React.FC = () => {
       resizeObserver.disconnect();
 
       // Dispose of particle geometries and materials
-      particlesRef.current.forEach((particle) => {
+      currentParticles.forEach((particle) => {
         particle.mesh.geometry.dispose();
         (particle.mesh.material as THREE.Material).dispose();
         scene.remove(particle.mesh);
@@ -219,6 +222,20 @@ const PhysicsParticleSystem2D: React.FC = () => {
       mountRef.current?.removeChild(renderer.domElement);
     };
   }, [speedMultiplier]); // Re-run effect when speedMultiplier changes
+
+  useEffect(() => {
+    // Capture ref value at the start of effect
+    const currentMount = mountRef.current;
+    
+    // Rest of the effect code...
+
+    return () => {
+      // Use captured value in cleanup
+      if (currentMount) {
+        // cleanup code
+      }
+    };
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col items-center">

@@ -49,7 +49,6 @@ const ThreeBackground: React.FC = () => {
         },
       });
 
-      const gl = renderer.getContext();
       const plane = new THREE.PlaneGeometry(2, 2);
       const mesh = new THREE.Mesh(plane, material);
       scene.add(mesh);
