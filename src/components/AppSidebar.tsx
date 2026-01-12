@@ -4,6 +4,7 @@ import { FaHome, FaStar, FaGooglePlay } from "react-icons/fa";
 import { BsGpuCard } from "react-icons/bs";
 import { GiDinosaurRex, GiGrapple, GiSlime, GiCubeforce } from "react-icons/gi";
 import { BiSolidInvader } from "react-icons/bi";
+import { FaTree } from "react-icons/fa6";
 import {
   Sidebar,
   SidebarContent,
@@ -56,10 +57,10 @@ const webItems = [
     icon: BsGpuCard,
   },
   {
-    title: "Dashboard",
-    url: "dashboard",
+    title: "Potree Viewer",
+    url: "potree",
     target: "_self",
-    icon: FaList,
+    icon: FaTree,
   },
 ];
 const gameItems = [

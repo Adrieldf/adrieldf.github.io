@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "setup-potree": "ts-node scripts/setup-potree.ts"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
@@ -30,7 +31,7 @@
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.3.1",
     "lucide-react": "^0.456.0",
-    "next": "14.2.16",
+    "next": "^14.2.35",
     "next-themes": "^0.4.3",
     "react": "^18",
     "react-dom": "^18",
@@ -47,9 +48,10 @@
     "@types/react-dom": "^18",
     "@types/three": "^0.169.0",
     "eslint": "^8",
-    "eslint-config-next": "14.2.16",
+    "eslint-config-next": "^16.1.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
