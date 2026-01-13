@@ -31,10 +31,10 @@
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.3.1",
     "lucide-react": "^0.456.0",
-    "next": "^14.2.35",
+    "next": "^15.1.0",
     "next-themes": "^0.4.3",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-icons": "^5.3.0",
     "recharts": "^2.14.1",
     "resize-observer-polyfill": "^1.5.1",
@@ -44,14 +44,15 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@types/three": "^0.169.0",
-    "eslint": "^8",
-    "eslint-config-next": "^16.1.1",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "15.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
+
