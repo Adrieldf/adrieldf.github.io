@@ -1,7 +1,7 @@
 "use client";
 
-import * as THREE  from "three/tsl";
-
+import * as THREE from "three";
+import { WebGPURenderer } from "three/webgpu";
 import { useEffect, useRef } from "react";
 
 const WebGPUScene: React.FC = () => {
@@ -10,6 +10,8 @@ const WebGPUScene: React.FC = () => {
   useEffect(() => {
     if (!canvasRef.current) return;
 
+    let renderer: WebGPURenderer;
+
     const init = async () => {
       // Check WebGPU support
       if (!navigator.gpu) {
@@ -17,9 +19,13 @@ const WebGPUScene: React.FC = () => {
         return;
       }
 
-      // Create the renderer
-      const renderer = new THREE.WebGPURenderer({ antialias: true });
+      // Create the renderer using the imported WebGPURenderer
+      renderer = new WebGPURenderer({
+        canvas: canvasRef.current!,
+        antialias: true
+      });
       renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
 
       // Set up the scene
       const scene = new THREE.Scene();
@@ -74,10 +80,12 @@ const WebGPUScene: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <canvas ref={canvasRef} className="w-full h-full"></canvas>
-    </>
+    <canvas
+      ref={canvasRef}
+      style={{ display: 'block', width: '100vw', height: '100vh' }}
+    />
   );
 };
 
 export default WebGPUScene;
+

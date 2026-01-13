@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, Suspense, useRef } from "react";
+/// <reference types="@react-three/fiber" />
+import React, { useState, useEffect, Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls as OrbitControlsImpl, useGLTF, useAnimations, Html, Center, Environment } from "@react-three/drei";
 import {
@@ -18,12 +19,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon } from "lucide-material";
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import type { OrbitControlsProps } from "@react-three/drei";
-import { OrbitControls as OrbitControlsType } from '@react-three/drei/core/OrbitControls';
-
 interface Model {
   name: string;
   path: string;
@@ -42,50 +39,18 @@ function LoadingScreen() {
 function Lighting() {
   return (
     <>
-      {/* Main ambient light */}
       <ambientLight intensity={0.5} />
-
-      {/* Main directional light (sun) */}
       <directionalLight
         position={[10, 10, 5]}
         intensity={1}
         castShadow
         shadow-mapSize={[2048, 2048]}
-        shadow-camera-far={50}
-        shadow-camera-left={-10}
-        shadow-camera-right={10}
-        shadow-camera-top={10}
-        shadow-camera-bottom={-10}
       />
-
-      {/* Fill light from the opposite side */}
-      <directionalLight
-        position={[-5, 5, -5]}
-        intensity={0.5}
-      />
-
-      {/* Top down light for better detail visibility */}
-      <directionalLight
-        position={[0, 10, 0]}
-        intensity={0.3}
-      />
-
-      {/* Ground fill light */}
-      <directionalLight
-        position={[0, -5, 0]}
-        intensity={0.2}
-      />
-
-      {/* Front fill light */}
-      <directionalLight
-        position={[0, 2, 5]}
-        intensity={0.3}
-      />
-
-      {/* Hemisphere light for natural sky-ground interaction */}
-      <hemisphereLight
-        args={["#ffffff", "#99ccff", 0.6]}
-      />
+      <directionalLight position={[-5, 5, -5]} intensity={0.5} />
+      <directionalLight position={[0, 10, 0]} intensity={0.3} />
+      <directionalLight position={[0, -5, 0]} intensity={0.2} />
+      <directionalLight position={[0, 2, 5]} intensity={0.3} />
+      <hemisphereLight args={["#ffffff", "#99ccff", 0.6]} />
     </>
   );
 }
@@ -95,9 +60,7 @@ function Model({ path }: { path: string }) {
   const { actions, names } = useAnimations(animations, scene);
   const controlsRef = useRef<any>(null);
 
-  // Animation effect
   useEffect(() => {
-    // Play all animations
     names.forEach((name) => {
       const action = actions[name];
       if (action) {
@@ -106,7 +69,6 @@ function Model({ path }: { path: string }) {
     });
 
     return () => {
-      // Stop all animations on cleanup
       names.forEach((name) => {
         const action = actions[name];
         if (action) {
@@ -114,9 +76,8 @@ function Model({ path }: { path: string }) {
         }
       });
     };
-  }, [actions, names]);
+  }, [actions, names);
 
-  // Camera positioning effect
   useEffect(() => {
     const box = new THREE.Box3().setFromObject(scene);
     const center = box.getCenter(new THREE.Vector3());
@@ -124,6 +85,7 @@ function Model({ path }: { path: string }) {
     const radius = Math.max(size.x, size.y, size.z) * 0.5;
     const fov = 50;
     const idealDistance = (radius * 1.0) / Math.tan((fov * 0.5) * Math.PI / 180);
+
     if (controlsRef.current) {
       const controls = controlsRef.current;
       controls.target.set(center.x, center.y, center.z);
@@ -133,7 +95,6 @@ function Model({ path }: { path: string }) {
     }
   }, [scene]);
 
-  // Material setup
   scene.traverse((child) => {
     if (child instanceof THREE.Mesh) {
       if (child.material) {
@@ -192,7 +153,7 @@ export default function GLBLoader() {
             setSelectedModel(selected || null);
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px">
             <SelectValue placeholder="Select Model" />
           </SelectTrigger>
           <SelectContent>
@@ -218,66 +179,26 @@ export default function GLBLoader() {
           <DialogHeader>
             <DialogTitle>Model Credits</DialogTitle>
             <DialogDescription className="text-center pt-4">
-              The models used in this page can be found in their pages on:{' '}
+              The models used in this page can be found on Sketchfab:
               <br />
-              <a
-                href="https://sketchfab.com/3d-models/free-1975-porsche-911-930-turbo-8568d9d14a994b9cae59499f0dbed21e"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:text-primary/80 underline underline-offset-4"
-              >
-                FREE 1975 Porsche 911 (930) Turbo
-              </a>
+              <a href="https://sketchfab.com/3d-models/free-1975-porsche-911-930-turbo-8568d9d14a994b9cae59499f0dbed21e" target="_blank" className="text-primary hover:underline">Porsche 911 (930) Turbo</a>
               <br />
-              <a
-                href="https://sketchfab.com/3d-models/silent-ash-bc44272e8c1047148b33c913e659fcfa#download"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:text-primary/80 underline underline-offset-4"
-              >
-                Silent Ash
-              </a>
+              <a href="https://sketchfab.com/3d-models/silent-ash-bc44272e8c1047148b33c913e659fcfa" target="_blank" className="text-primary hover:underline">Silent Ash</a>
               <br />
-              <a
-                href="https://sketchfab.com/3d-models/frank-0eb1f1757349489eab05a0f03cff5b46#download"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:text-primary/80 underline underline-offset-4"
-              >
-                Frank
-              </a>
+              <a href="https://sketchfab.com/3d-models/frank-0eb1f1757349489eab05a0f03cff5b46" target="_blank" className="text-primary hover:underline">Frank</a>
               <br />
-              <a
-                href="https://sketchfab.com/3d-models/skull-salazar-downloadable-eeed09437afb4e1ea8a6ff3b0e9964ad"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:text-primary/80 underline underline-offset-4"
-              >
-                Skull Salazar
-              </a>
+              <a href="https://sketchfab.com/3d-models/skull-salazar-downloadable-eeed09437afb4e1ea8a6ff3b0e9964ad" target="_blank" className="text-primary hover:underline">Skull Salazar</a>
               <br />
-              <a
-                href="https://sketchfab.com/3d-models/black-dragon-with-idle-animation-fb0053a2e59b43868e934c239bf4eb36"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:text-primary/80 underline underline-offset-4"
-              >
-                Black Dragon with Idle Animation
-              </a>
+              <a href="https://sketchfab.com/3d-models/black-dragon-with-idle-animation-fb0053a2e59b43868e934c239bf4eb36" target="_blank" className="text-primary hover:underline">Black Dragon</a>
               <br />
-              All credit goes to the creators of the models.
+              All credit goes to the original creators.
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>
 
       <Canvas
-        camera={{
-          position: [3, 2, 3],
-          fov: 50,
-          near: 0.1,
-          far: 1000
-        }}
+        camera={{ position: [3, 2, 3], fov: 50, near: 0.1, far: 1000 }}
         style={{ height: '100vh' }}
         shadows
       >
