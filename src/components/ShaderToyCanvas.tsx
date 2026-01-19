@@ -23,27 +23,24 @@ export default function ShaderToyCanvas() {
 
   // Load available shaders
   useEffect(() => {
-    const fetchShaders = async () => {
-      try {
-        const response = await fetch('/api/shaders');
-        if (!response.ok) throw new Error('Failed to fetch shaders');
-        const files = await response.json();
-        
-        const shaderList = files.map((file: string) => ({
-          name: file.replace('.glsl', ''),
-          filePath: `/shaders/${file}`
-        }));
-        
-        setShaders(shaderList);
-        if (shaderList.length > 0) {
-          setCurrentShader(shaderList[0]);
-        }
-      } catch (error) {
-        console.error('Error loading shaders:', error);
-      }
-    };
-
-    fetchShaders();
+    const list = [
+      'galaxy.glsl',
+      'mandelbrot.glsl',
+      'moving_cubic_universe.glsl',
+      'simple.glsl',
+      'sky.glsl',
+      'water.glsl'
+    ];
+    
+    const shaderList = list.map((file: string) => ({
+      name: file.replace('.glsl', '').replace(/_/g, ' '),
+      filePath: `/shaders/${file}`
+    }));
+    
+    setShaders(shaderList);
+    if (shaderList.length > 0) {
+      setCurrentShader(shaderList[0]);
+    }
   }, []);
 
   const loadShader = async (shader: Shader) => {

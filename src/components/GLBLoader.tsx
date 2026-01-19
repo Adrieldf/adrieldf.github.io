@@ -1,7 +1,12 @@
 "use client";
 
 /// <reference types="@react-three/fiber" />
+/// <reference types="@react-three/fiber/decl" />
 import React, { useState, useEffect, Suspense, useRef } from "react";
+import { extend } from "@react-three/fiber";
+import * as THREE from 'three';
+
+// extend(THREE);
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls as OrbitControlsImpl, useGLTF, useAnimations, Html, Center, Environment } from "@react-three/drei";
 import {
@@ -19,8 +24,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { InfoIcon } from "lucide-material";
-import * as THREE from 'three';
+import { InfoIcon } from "lucide-react";
 interface Model {
   name: string;
   path: string;
@@ -76,7 +80,7 @@ function Model({ path }: { path: string }) {
         }
       });
     };
-  }, [actions, names);
+  }, [actions, names]);
 
   useEffect(() => {
     const box = new THREE.Box3().setFromObject(scene);
@@ -126,24 +130,19 @@ export default function GLBLoader() {
   const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const response = await fetch('/api/models');
-        if (!response.ok) throw new Error('Failed to fetch models');
-        const files = await response.json();
-        const modelList = files.map((file: string) => ({
-          name: file.replace('.glb', ''),
-          path: `/glbs/${file}`
-        }));
-        setModels(modelList);
-      } catch (error) {
-        console.error('Error loading models:', error);
-      }
-    };
-
-    fetchModels();
+    const list = [
+      'black_dragon_with_idle_animation.glb',
+      'frank.glb',
+      'free_1975_porsche_911_930_turbo.glb',
+      'silent_ash.glb',
+      'skull_salazar_downloadable.glb'
+    ];
+    const modelList = list.map((file: string) => ({
+      name: file.replace('.glb', '').replace(/_/g, ' '),
+      path: `/glbs/${file}`
+    }));
+    setModels(modelList);
   }, []);
-
   return (
     <div className="relative w-full h-full">
       <div className="absolute pl-5 top-4 z-50 flex items-center gap-2">
@@ -153,7 +152,7 @@ export default function GLBLoader() {
             setSelectedModel(selected || null);
           }}
         >
-          <SelectTrigger className="w-[180px">
+          <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Model" />
           </SelectTrigger>
           <SelectContent>
