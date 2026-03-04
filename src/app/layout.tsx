@@ -1,36 +1,29 @@
-import { ThemeProvider } from "@/components/ThemeProvider";
+import type { Metadata } from "next";
+import { Press_Start_2P } from "next/font/google";
 import "./globals.css";
-import { ReactNode } from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
 
-export const metadata = {
-  title: "Adrieldf's Portfolio",
-  description: "Showcasing my projects and skills",
+const pressStart2P = Press_Start_2P({
+  weight: "400",
+  variable: "--font-press-start",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Adriel Izoton de Faci - Portfolio",
+  description: "Game Designer & Developer Portfolio",
 };
 
-interface RootLayoutProps {
-  children: ReactNode;
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en" className="overflow-hidden" suppressHydrationWarning>
-      <body className="overflow-hidden" suppressHydrationWarning>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="w-full">
-              <SidebarTrigger />
-              {children}
-            </main>
-          </SidebarProvider>
-        </ThemeProvider>
+    <html lang="en">
+      <body
+        className={`${pressStart2P.variable} antialiased`}
+      >
+        {children}
       </body>
     </html>
   );
