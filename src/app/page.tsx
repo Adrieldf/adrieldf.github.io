@@ -95,6 +95,23 @@ const projects: Project[] = [
     image: "/projects/skyrunner.png",
     gameLink: "https://apkpure.com/br/skyrunner/com.adrielgames.skyrunner",
 
+  },
+  {
+    id: 10, title: "Sam the Slime Slayer",
+    desc: " A 2D action survival game where the player slays slimes to survive and choose upgrades that cost health to get stronger after defeating each wave. This game was made for the Ludum Dare 44 with the theme 'Your life is currency'. ",
+    tags: ["Unity", "C#", "2D", "Web", "Game Jam"], color: RetroColor.White,
+    image: "/projects/sam_the_slime_slayer.png",
+    gameLink: "https://adrieldf.itch.io/sam-the-slime-slayer",
+    sourceLink: "https://github.com/Adrieldf/LudumDare44"
+
+  },
+  {
+    id: 11, title: "Run Cockroach Run",
+    desc: "A 2D infinite runner game made for the Two Button Game Jam where the whole game (and menus) needed to be playable using only two buttons. ",
+    tags: ["Unity", "C#", "2D", "Web", "Game Jam"], color: RetroColor.Green,
+    image: "/projects/run_cockroach_run.png",
+    gameLink: "https://adrieldf.itch.io/run-cockroach-run",
+    sourceLink: "https://github.com/patrickprz/2btngamejam"
   }
 ];
 
