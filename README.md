@@ -5,7 +5,7 @@ Welcome to my personal portfolio website! This project serves as a digital showc
 ## 📸 Preview
 
 <!-- Replace the image path below with your actual project screenshot -->
-![Portfolio Screenshot](./public/portfolioscreenshot.png.png)
+![Portfolio Screenshot](./public/portfolioscreenshot.png)
 
 ## 🚀 How to Run Locally
 
