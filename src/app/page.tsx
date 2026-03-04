@@ -37,14 +37,14 @@ const projects: Project[] = [
   {
     id: 2, title: "Web Portfolio",
     desc: "A fully responsive and interactive personal portfolio website showcasing my game development and programming journey. Built with Next.js, React, and TypeScript, featuring a dynamic 3D environment powered by Three.js and smooth, retro-inspired UI animations.",
-    tags: ["React", "Next.js", "TS", "Three.js"], color: RetroColor.White,
+    tags: ["React", "Next.js", "TS", "Web", "Three.js"], color: RetroColor.White,
     image: "/projects/web_portfolio.png",
     sourceLink: "https://github.com/Adrieldf/adrieldf.github.io"
   },
   {
     id: 3, title: "Purrfect Pizza & Fish Delivery",
     desc: "Game made for Ludum Dare 53 Compo (48 hours and from scratch) about a cat that needs to time the deliveries correctly and not fall into holes to score. With 2308 submissions my game got the 337th position overall and the best results were on Humor and Theme with 188th and 203rd respectively.",
-    tags: ["Unity", "C#", "2D", "Game Jam"], color: RetroColor.Green,
+    tags: ["Unity", "C#", "2D", "Web", "Game Jam"], color: RetroColor.Green,
     image: "/projects/purrfect_pizza_and_fish_delivery.png",
     gameLink: "https://adrieldf.itch.io/purrfect-pizza-fish-delivery",
     sourceLink: "https://github.com/Adrieldf/ProjectDelivery"
@@ -52,7 +52,7 @@ const projects: Project[] = [
   {
     id: 4, title: "Grapple Against Time",
     desc: "A 2D physics game where the player needs to use a grappling hook to swing through an asteroid field to find oxygen cans that are scattered from the spaceship explosion. This game was made for 3 game jams at the same time, taking into consideration the theme and restrictions of all of them. The overall results were: Mini Jam 130: 22nd position, Gamedev.js Jam: 87th position and Lv.99 Game Jam: 69th position.",
-    tags: ["Unity", "C#", "2D", "Game Jam"], color: RetroColor.Purple,
+    tags: ["Unity", "C#", "2D", "Web", "Game Jam"], color: RetroColor.Purple,
     image: "/projects/grapple_against_time.png",
     gameLink: "https://adrieldf.itch.io/grapple-against-time",
     sourceLink: "https://github.com/Adrieldf/ProjectLunar"
@@ -78,6 +78,7 @@ const projects: Project[] = [
     desc: "A 2D clicker game where the player can grow cacti plants to progress through the game and farm points. I’ve released this game a while ago on Google Play Store but with the recent policy changes it has become obsolete and it’s not available to download anymore through the store.",
     tags: ["Unity", "C#", "2D", "Mobile"], color: RetroColor.Cyan,
     image: "/projects/cactus_care.png",
+    gameLink: "https://apkpure.com/br/cactus-care/com.adrielgames.cactuscare",
   },
   {
     id: 8, title: "Rock Paper Scissors Lies",
@@ -92,6 +93,7 @@ const projects: Project[] = [
     desc: "A 3D infinite runner game where the player is an astronaut that runs on platforms from falling meteors and can collect coins to unlock new cosmetic items. The objective is to get as far as possible to become the number one rank on the global leaderboard. I’ve released this game a while ago on Google Play Store but with the recent policy changes it has become obsolete and it’s not available to download anymore through the store.",
     tags: ["Unity", "C#", "3D", "Mobile"], color: RetroColor.Blue,
     image: "/projects/skyrunner.png",
+    gameLink: "https://apkpure.com/br/skyrunner/com.adrielgames.skyrunner",
 
   }
 ];
