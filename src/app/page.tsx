@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Scene from "@/components/Scene";
 
@@ -133,6 +133,44 @@ const projects: Project[] = [
 
 const allTags: string[] = ["All", ...Array.from(new Set(projects.flatMap(p => p.tags))).sort()];
 
+function ProjectImage({ project }: { project: Project }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  const isGif = project.image?.endsWith('.gif');
+  const placeholderImage = isGif ? project.image!.replace('.gif', '.png') : null;
+
+  // Check if image is already loaded from cache when component mounts
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      setIsLoaded(true);
+    }
+  }, []);
+
+  return (
+    <div
+      className="border-2 md:border-4 mb-4 md:mb-6 bg-slate-900 group-hover:bg-slate-800 transition-colors overflow-hidden relative"
+      style={{ borderColor: project.color }}
+    >
+      {placeholderImage && (
+        <img
+          src={placeholderImage}
+          alt={`${project.title} placeholder`}
+          className="w-full h-auto block"
+        />
+      )}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        ref={imgRef}
+        src={project.image}
+        alt={`${project.title} preview`}
+        onLoad={() => setIsLoaded(true)}
+        className={`w-full h-auto ${placeholderImage ? 'absolute inset-0 block' : 'block'} ${placeholderImage && !isLoaded ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+      />
+    </div>
+  );
+}
+
 export default function Home() {
   const [filter, setFilter] = useState<string>("All");
   const [isCRT, setIsCRT] = useState<boolean>(false);
@@ -246,19 +284,7 @@ export default function Home() {
               style={{ borderColor: project.color }}
             >
               <div className="p-3 md:p-4 flex flex-col h-full">
-                {project.image && (
-                  <div
-                    className="border-2 md:border-4 mb-4 md:mb-6 bg-slate-900 group-hover:bg-slate-800 transition-colors overflow-hidden"
-                    style={{ borderColor: project.color }}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={project.image}
-                      alt={`${project.title} preview`}
-                      className="w-full h-auto block"
-                    />
-                  </div>
-                )}
+                {project.image && <ProjectImage project={project} />}
 
                 <h3
                   className="text-base md:text-lg font-bold mb-2 md:mb-4 uppercase drop-shadow-[1px_1px_0_#fff]"
