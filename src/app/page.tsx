@@ -28,7 +28,15 @@ interface Project {
 
 const projects: Project[] = [
   {
-    id: 1, title: "Cyberpunk World",
+    id: 1, title: "Minecraft Resource Pack Merger",
+    desc: "A sophisticated web application designed to merge multiple Minecraft resource packs into a single, optimized ZIP file. It features a modern Minecraft-styled UI, integration with Dropbox for reliable hosting, automatic SHA-1 hash generation, and one-click clipboard copying for easy server configuration setup.",
+    tags: ["React", "Next.js", "TS", "Web", "Minecraft", "Tool"], color: RetroColor.Green,
+    image: "/projects/mc_resource_pack_merger.png",
+    gameLink: "https://adrieldf.github.io/mc-resource-pack-merger/",
+    sourceLink: "https://github.com/Adrieldf/mc-resource-pack-merger"
+  },
+  {
+    id: 2, title: "Cyberpunk World",
     desc: "A cyberpunk-themed interactive 3D world map built with Next.js and Three.js. Features an animated ocean shader, GeoJSON landmass projections, and smooth camera controls for orbiting the globe and focusing on specific countries.",
     tags: ["React", "Next.js", "TS", "Web", "Three.js"], color: RetroColor.Indigo,
     image: "/projects/cyberpunk_world.gif",
@@ -36,7 +44,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/Adrieldf/cyberpunk-world"
   },
   {
-    id: 2, title: "Movies Pack Opener",
+    id: 3, title: "Movies Pack Opener",
     desc: "A fun web application built with Next.js and React that simulates opening movie-themed mystery packages online. Features dynamic animations and a pack opening experience.",
     tags: ["React", "Next.js", "TS", "Web"], color: RetroColor.Pink,
     image: "/projects/movies_pack_opener.gif",
@@ -44,21 +52,21 @@ const projects: Project[] = [
     sourceLink: "https://github.com/Adrieldf/movies-pack-opener-app"
   },
   {
-    id: 3, title: "Dino Survival",
+    id: 4, title: "Dino Survival",
     desc: "3D survival game with dinosaurs. The player can collect xp gems to level up and become stronger, battle other dinosaurs and gather power ups to get temporary boosts. Also features an online leaderboard for players to compete for the best score.",
     tags: ["Unity", "C#", "3D", "Mobile"], color: RetroColor.Blue,
     image: "/projects/dino_survival.jpeg",
     sourceLink: "https://github.com/Adrieldf/ProjectDino"
   },
   {
-    id: 4, title: "Web Portfolio",
+    id: 5, title: "Web Portfolio",
     desc: "A fully responsive and interactive personal portfolio website showcasing my game development and programming journey. Built with Next.js, React, and TypeScript, featuring a dynamic 3D environment powered by Three.js and smooth, retro-inspired UI animations.",
     tags: ["React", "Next.js", "TS", "Web", "Three.js"], color: RetroColor.White,
     image: "/projects/web_portfolio.png",
     sourceLink: "https://github.com/Adrieldf/adrieldf.github.io"
   },
   {
-    id: 5, title: "Purrfect Pizza & Fish Delivery",
+    id: 6, title: "Purrfect Pizza & Fish Delivery",
     desc: "Game made for Ludum Dare 53 Compo (48 hours and from scratch) about a cat that needs to time the deliveries correctly and not fall into holes to score. With 2308 submissions my game got the 337th position overall and the best results were on Humor and Theme with 188th and 203rd respectively.",
     tags: ["Unity", "C#", "2D", "Web", "Game Jam"], color: RetroColor.Green,
     image: "/projects/purrfect_pizza_and_fish_delivery.png",
@@ -66,7 +74,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/Adrieldf/ProjectDelivery"
   },
   {
-    id: 6, title: "Grapple Against Time",
+    id: 7, title: "Grapple Against Time",
     desc: "A 2D physics game where the player needs to use a grappling hook to swing through an asteroid field to find oxygen cans that are scattered from the spaceship explosion. This game was made for 3 game jams at the same time, taking into consideration the theme and restrictions of all of them. The overall results were: Mini Jam 130: 22nd position, Gamedev.js Jam: 87th position and Lv.99 Game Jam: 69th position.",
     tags: ["Unity", "C#", "2D", "Web", "Game Jam"], color: RetroColor.Purple,
     image: "/projects/grapple_against_time.png",
@@ -74,7 +82,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/Adrieldf/ProjectLunar"
   },
   {
-    id: 7, title: "Game Invaders",
+    id: 8, title: "Game Invaders",
     desc: "A 2D shoot‘em up where the player needs to kill all the “bugs” helping to “publish” a stable game. Inspired by games like Space Invaders and Chicken Invaders. The jam theme was Unstable and the game was made by myself in 72 hours from scratch.",
     tags: ["Unity", "C#", "2D", "Windows", "Game Jam"], color: RetroColor.Pink,
     image: "/projects/game_invaders.png",
@@ -82,7 +90,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/Adrieldf/LudumDare49"
   },
   {
-    id: 8, title: "Bob, The Robot",
+    id: 9, title: "Bob, The Robot",
     desc: "A 2D platform game created together with a friend where we did all the assets, design and code. The jam theme was Rewind and the main mechanic of the game is to rewind time to solve the puzzles and progress through the game.",
     tags: ["Unity", "C#", "2D", "Windows", "Game Jam"], color: RetroColor.Orange,
     image: "/projects/bob_the_robot.png",
@@ -90,14 +98,14 @@ const projects: Project[] = [
     sourceLink: "https://github.com/Adrieldf/ProjectRewind"
   },
   {
-    id: 9, title: "Cactus Care",
+    id: 10, title: "Cactus Care",
     desc: "A 2D clicker game where the player can grow cacti plants to progress through the game and farm points. I’ve released this game a while ago on Google Play Store but with the recent policy changes it has become obsolete and it’s not available to download anymore through the store.",
     tags: ["Unity", "C#", "2D", "Mobile"], color: RetroColor.Cyan,
     image: "/projects/cactus_care.png",
     gameLink: "https://apkpure.com/br/cactus-care/com.adrielgames.cactuscare",
   },
   {
-    id: 10, title: "Rock Paper Scissors Lies",
+    id: 11, title: "Rock Paper Scissors Lies",
     desc: "Game created for the international Community Game Jam with the theme The game is a liar in a 7-day duration. Available in web and Windows versions, the game is about rock-paper-scissors battles where the computer gives you hints that are mostly lies, and your goal is to win as many times as possible against your enemy. It features retro graphics and music, both created entirely by me during the jam.",
     tags: ["Unity", "C#", "2D", "Web", "Game Jam"], color: RetroColor.Red,
     image: "/projects/rock_paper_scissors_lies.png",
@@ -105,7 +113,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/Adrieldf/CommunityJam19"
   },
   {
-    id: 11, title: "SkyRunner",
+    id: 12, title: "SkyRunner",
     desc: "A 3D infinite runner game where the player is an astronaut that runs on platforms from falling meteors and can collect coins to unlock new cosmetic items. The objective is to get as far as possible to become the number one rank on the global leaderboard. I’ve released this game a while ago on Google Play Store but with the recent policy changes it has become obsolete and it’s not available to download anymore through the store.",
     tags: ["Unity", "C#", "3D", "Mobile"], color: RetroColor.Blue,
     image: "/projects/skyrunner.png",
@@ -113,7 +121,7 @@ const projects: Project[] = [
 
   },
   {
-    id: 12, title: "Sam the Slime Slayer",
+    id: 13, title: "Sam the Slime Slayer",
     desc: " A 2D action survival game where the player slays slimes to survive and choose upgrades that cost health to get stronger after defeating each wave. This game was made for the Ludum Dare 44 with the theme 'Your life is currency'. ",
     tags: ["Unity", "C#", "2D", "Web", "Game Jam"], color: RetroColor.White,
     image: "/projects/sam_the_slime_slayer.png",
@@ -122,7 +130,7 @@ const projects: Project[] = [
 
   },
   {
-    id: 13, title: "Run Cockroach Run",
+    id: 14, title: "Run Cockroach Run",
     desc: "A 2D infinite runner game made for the Two Button Game Jam where the whole game (and menus) needed to be playable using only two buttons. ",
     tags: ["Unity", "C#", "2D", "Web", "Game Jam"], color: RetroColor.Green,
     image: "/projects/run_cockroach_run.png",
@@ -306,7 +314,7 @@ export default function Home() {
                         className="flex-1 text-center px-2 py-1 bg-black border-2 text-[8px] md:text-[10px] font-bold uppercase retro-shadow hover:bg-slate-800 transition-colors"
                         style={{ borderColor: project.color, color: project.color }}
                       >
-                        Game Link
+                        View Project
                       </a>
                     )}
                     {project.sourceLink && (
