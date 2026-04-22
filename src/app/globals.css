@@ -9,12 +9,19 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
+  --cyberpunk-yellow: #fcee0a;
+  --cyberpunk-cyan: #00f0ff;
+  --cyberpunk-magenta: #ff003c;
+  --cyberpunk-blue: #050a0e;
+  --cyberpunk-red-tint: rgba(255, 0, 60, 0.05);
+  --cyberpunk-dark-red: #0a0505;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-pixel), monospace;
+  transition: background-color 0.5s ease;
 }
 
 /* Hard retro shadow utility */
@@ -37,9 +44,47 @@ body {
   box-shadow: 0px 0px 0px 0px rgba(99, 102, 241, 1);
 }
 
+/* Cyberpunk Styles */
+.cyberpunk-border {
+  clip-path: polygon(0 0,
+      100% 0,
+      100% calc(100% - 15px),
+      calc(100% - 15px) 100%,
+      0 100%);
+  border-left: 4px solid var(--cyberpunk-yellow);
+}
+
+.cyberpunk-button {
+  background: var(--cyberpunk-yellow);
+  color: #000;
+  clip-path: polygon(-10% 0,
+      100% 0,
+      100% 70%,
+      90% 100%,
+      0 100%);
+  font-weight: 900;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.cyberpunk-button:hover {
+  background: var(--cyberpunk-cyan);
+  box-shadow: -5px 0 0 var(--cyberpunk-magenta);
+}
+
+.glitch-text {
+  position: relative;
+  text-shadow: 2px 2px var(--cyberpunk-magenta), -2px -2px var(--cyberpunk-cyan);
+}
+
 @keyframes scanline-scroll {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 4px; }
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 4px;
+  }
 }
 
 /* CRT Scanline Effect */
@@ -49,12 +94,168 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%,
-    rgba(0, 0, 0, 0.25) 50%
-  );
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.25) 50%);
   background-size: 100% 4px;
   z-index: 50;
   pointer-events: none;
   animation: scanline-scroll 0.5s linear infinite;
+}
+
+/* Glitch Overlay Effect - Intense & Colorful like the reference */
+.glitch-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 50;
+  pointer-events: none;
+  background: transparent;
+  mix-blend-mode: hard-light;
+  overflow: hidden;
+}
+
+.glitch-overlay::before,
+.glitch-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+}
+
+.glitch-overlay::before {
+  background: repeating-linear-gradient(0deg,
+      rgba(255, 0, 60, 0.4) 0%,
+      rgba(255, 252, 10, 0.4) 1%,
+      transparent 1%,
+      transparent 2%);
+  animation: glitch-tear-1 0.2s infinite;
+}
+
+.glitch-overlay::after {
+  background: repeating-linear-gradient(0deg,
+      rgba(0, 240, 255, 0.4) 0%,
+      rgba(255, 0, 255, 0.4) 1.5%,
+      transparent 1.5%,
+      transparent 3%);
+  animation: glitch-tear-2 0.3s infinite;
+}
+
+/* Cyberpunk Vignette */
+.cyberpunk-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 45;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 40%, rgba(255, 0, 60, 0.15) 100%);
+  box-shadow: inset 0 0 100px rgba(255, 0, 60, 0.1);
+}
+
+@keyframes glitch-tear-1 {
+  0% {
+    clip-path: inset(0 0 100% 0);
+    transform: translateX(0);
+  }
+
+  2% {
+    clip-path: inset(20% 0 70% 0);
+    transform: translateX(-25px);
+    filter: hue-rotate(90deg);
+  }
+
+  4% {
+    clip-path: inset(0 0 100% 0);
+    transform: translateX(0);
+  }
+
+  30% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  32% {
+    clip-path: inset(50% 0 30% 0);
+    transform: translateX(25px);
+    filter: hue-rotate(180deg);
+  }
+
+  34% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  60% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  62% {
+    clip-path: inset(80% 0 10% 0);
+    transform: translateX(35px);
+    filter: contrast(200%);
+  }
+
+  64% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  100% {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes glitch-tear-2 {
+  0% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  15% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  17% {
+    clip-path: inset(15% 0 80% 0);
+    transform: translateX(30px);
+    filter: invert(50%);
+  }
+
+  19% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  45% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  47% {
+    clip-path: inset(60% 0 25% 0);
+    transform: translateX(-30px);
+    filter: hue-rotate(45deg);
+  }
+
+  49% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  85% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  87% {
+    clip-path: inset(5% 0 90% 0);
+    transform: translateX(-20px);
+    filter: saturate(300%);
+  }
+
+  89% {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  100% {
+    clip-path: inset(0 0 100% 0);
+  }
 }
