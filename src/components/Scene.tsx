@@ -121,8 +121,8 @@ function BlackwallScene({ isGlitch }: { isGlitch?: boolean }) {
       {/* 1. The Undulating Data Sea */}
       <points>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" count={floorPositions.length / 3} array={floorPositions} itemSize={3} />
-          <bufferAttribute attach="attributes-color" count={floorColors.length / 3} array={floorColors} itemSize={3} />
+          <bufferAttribute attach="attributes-position" args={[floorPositions, 3]} />
+          <bufferAttribute attach="attributes-color" args={[floorColors, 3]} />
         </bufferGeometry>
         <pointsMaterial size={0.06} vertexColors transparent opacity={0.4} blending={THREE.AdditiveBlending} />
       </points>
@@ -163,7 +163,7 @@ function FloatingDebris({ count }: { count: number }) {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial size={0.04} color="#ffffff" transparent opacity={0.3} blending={THREE.AdditiveBlending} depthWrite={false} />
     </points>
@@ -198,9 +198,7 @@ function Starfield() {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial size={0.015} color="#ffffff" transparent opacity={0.8} sizeAttenuation />
