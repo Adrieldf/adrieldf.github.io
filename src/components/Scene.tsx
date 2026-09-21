@@ -191,38 +191,61 @@ function FloatingDebris({ count }: { count: number }) {
   );
 }
 
-// Moving Starfield for Retro Theme
+// Endless starfield for the Retro theme: the camera drifts forward through a deep volume of stars.
+// Stars slide toward the camera; once one passes it, it is recycled at the far end at a new random
+// x/y. Fog fades the far end to black, so recycled stars fade in instead of popping.
+const STAR_COUNT = 3000;
+const STAR_HALF_WIDTH = 25;
+const STAR_HALF_HEIGHT = 15;
+const STAR_FAR = -45;
+const STAR_NEAR = 2;
+const STAR_DEPTH = STAR_NEAR - STAR_FAR;
+const STAR_SPEED = 0.6;
+const STAR_TINTS = ["#ffffff", "#cfe0ff", "#a9c4ff", "#fff1d6", "#ffd9b0"].map((c) => new THREE.Color(c));
+
 function Starfield() {
   const pointsRef = useRef<THREE.Points>(null!);
-  const count = 1000;
-  const [positions] = useState(() => {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 10;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
+  const [[positions, colors]] = useState(() => {
+    const pos = new Float32Array(STAR_COUNT * 3);
+    const cols = new Float32Array(STAR_COUNT * 3);
+    for (let i = 0; i < STAR_COUNT; i++) {
+      pos[i * 3] = (Math.random() * 2 - 1) * STAR_HALF_WIDTH;
+      pos[i * 3 + 1] = (Math.random() * 2 - 1) * STAR_HALF_HEIGHT;
+      pos[i * 3 + 2] = STAR_FAR + Math.random() * STAR_DEPTH;
+
+      const tint = STAR_TINTS[Math.floor(Math.random() * STAR_TINTS.length)];
+      const brightness = 0.3 + Math.random() * 0.7;
+      cols[i * 3] = tint.r * brightness;
+      cols[i * 3 + 1] = tint.g * brightness;
+      cols[i * 3 + 2] = tint.b * brightness;
     }
-    return pos;
+    return [pos, cols] as const;
   });
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
+    const dt = Math.min(delta, 0.1); // avoid a big jump after the tab was in the background
     const pos = pointsRef.current.geometry.attributes.position.array as Float32Array;
-    for (let i = 0; i < count; i++) {
-      pos[i * 3 + 2] += delta * 1.5;
-      if (pos[i * 3 + 2] > 2) pos[i * 3 + 2] = -8;
+    for (let i = 0; i < STAR_COUNT; i++) {
+      const z = pos[i * 3 + 2] + dt * STAR_SPEED;
+      if (z > STAR_NEAR) {
+        pos[i * 3] = (Math.random() * 2 - 1) * STAR_HALF_WIDTH;
+        pos[i * 3 + 1] = (Math.random() * 2 - 1) * STAR_HALF_HEIGHT;
+        pos[i * 3 + 2] = z - STAR_DEPTH;
+      } else {
+        pos[i * 3 + 2] = z;
+      }
     }
     pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    pointsRef.current.rotation.z += dt * 0.01; // faint roll for a drifting-through-space feel
   });
 
   return (
-    <points ref={pointsRef}>
+    <points ref={pointsRef} frustumCulled={false}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-        />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-color" args={[colors, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.015} color="#ffffff" transparent opacity={0.8} sizeAttenuation />
+      <pointsMaterial size={0.04} vertexColors transparent opacity={0.9} sizeAttenuation depthWrite={false} />
     </points>
   );
 }
@@ -241,7 +264,7 @@ export default function Scene({ isGlitch, theme }: SceneProps) {
       >
         {/* Declarative so background/fog follow theme switches (onCreated only ran once) */}
         <color attach="background" args={[bgColor]} />
-        <fogExp2 attach="fog" args={[bgColor, theme === "cyberpunk" ? 0.15 : 0]} />
+        <fogExp2 attach="fog" args={[bgColor, theme === "cyberpunk" ? 0.15 : 0.045]} />
         <ambientLight intensity={0.5} />
         
         {theme === "retro" ? (

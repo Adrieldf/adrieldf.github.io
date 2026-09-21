@@ -32,30 +32,29 @@ const projects: Project[] = [
   {
     id: 0, title: "Cozy Farm",
     desc: "A charming 3D farming experience built with a custom-developed Three.js engine. It features a unique 2.5D rendering system that brings pixel art sprites to life in a 3D world with simulated depth, dynamic shadows, and immersive environment interactions.",
-    tags: ["React", "Next.js", "TS", "Three.js", "2D", "3D"], color: RetroColor.Orange,
+    tags: ["React", "Next.js", "TS", "Three.js", "2D", "3D", "AI"], color: RetroColor.Orange,
     image: "/projects/cozy_farm.png",
     gameLink: "https://cozy-farm-phi.vercel.app"
   },
   {
     id: 1, title: "Minecraft Resource Pack Merger",
     desc: "A sophisticated web application designed to merge multiple Minecraft resource packs into a single, optimized ZIP file. It features a modern Minecraft-styled UI, integration with Dropbox for reliable hosting, automatic SHA-1 hash generation, and one-click clipboard copying for easy server configuration setup.",
-    tags: ["React", "Next.js", "TS", "Web", "Minecraft", "Tool"], color: RetroColor.Green,
+    tags: ["React", "Next.js", "TS", "Web", "Minecraft", "Tool", "AI"], color: RetroColor.Green,
     image: "/projects/mc_resource_pack_merger.png",
     gameLink: "https://adrieldf.github.io/mc-resource-pack-merger/",
     sourceLink: "https://github.com/Adrieldf/mc-resource-pack-merger"
   },
   {
-    id: 2, title: "Cyberpunk World",
-    desc: "A cyberpunk-themed interactive 3D world map built with Next.js and Three.js. Features an animated ocean shader, GeoJSON landmass projections, and smooth camera controls for orbiting the globe and focusing on specific countries.",
-    tags: ["React", "Next.js", "TS", "Web", "Three.js"], color: RetroColor.Indigo,
-    image: "/projects/cyberpunk_world.gif",
-    gameLink: "https://cyberpunk-world-sigma.vercel.app",
-    sourceLink: "https://github.com/Adrieldf/cyberpunk-world"
+    id: 15, title: "TubeHero",
+    desc: "A Guitar Hero clone that runs in the browser and plays music from YouTube videos, with the notes flying toward you in a 3D scene. Built with Three.js, with Claude Code helping to write it.",
+    tags: ["Web", "Three.js", "3D", "Game", "AI"], color: RetroColor.Cyan,
+    image: "/projects/tubehero.gif",
+    gameLink: "https://tubehero.vercel.app"
   },
   {
     id: 3, title: "Movies Pack Opener",
     desc: "A fun web application built with Next.js and React that simulates opening movie-themed mystery packages online. Features dynamic animations and a pack opening experience.",
-    tags: ["React", "Next.js", "TS", "Web"], color: RetroColor.Pink,
+    tags: ["React", "Next.js", "TS", "Web", "AI"], color: RetroColor.Pink,
     image: "/projects/movies_pack_opener.gif",
     gameLink: "https://adrieldf.github.io/movies-pack-opener-app/",
     sourceLink: "https://github.com/Adrieldf/movies-pack-opener-app"
@@ -162,6 +161,7 @@ function ProjectImage({ project, theme }: { project: Project, theme: Theme }) {
       <img
         ref={(el) => { if (el?.complete) setIsLoaded(true); }}
         src={project.image}
+        loading="lazy"
         alt={`${project.title} preview`}
         onLoad={() => setIsLoaded(true)}
         className={`w-full h-auto block transition-opacity duration-300 ${!isLoaded ? 'opacity-0' : 'opacity-100'}`}
@@ -201,7 +201,7 @@ export default function Home() {
   return (
     <MotionConfig reducedMotion="user">
       <main className="min-h-screen text-white p-4 md:p-8 relative overflow-x-hidden uppercase tracking-wider">
-        {isCRT && theme === "retro" && <div className="scanlines"></div>}
+        {isCRT && theme === "retro" && (<><div className="scanlines"></div><div className="crt-curvature"></div></>)}
         {theme === "cyberpunk" && <div className="cyberpunk-vignette"></div>}
         {isGlitch && theme === "cyberpunk" && <div className="glitch-overlay"></div>}
         <Scene isGlitch={isGlitch && theme === "cyberpunk"} theme={theme} />
