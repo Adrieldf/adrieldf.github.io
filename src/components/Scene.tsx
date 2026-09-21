@@ -1,16 +1,37 @@
 "use client";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useMemo, useState } from "react";
+import { useRef, useMemo, useState, useSyncExternalStore } from "react";
 import * as THREE from "three";
 
-interface SceneProps {
-  activeTag: string;
-  isGlitch?: boolean;
-  theme: string;
+interface SceneProps {  isGlitch?: boolean;
+  theme: "retro" | "cyberpunk";
+}
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+      mq.addEventListener("change", onChange);
+      return () => mq.removeEventListener("change", onChange);
+    },
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    () => false,
+  );
 }
 
 // Data Pillar component for individual animation
-function DataPillar({ x, z, height, initialOpacity, speed, isGlitch }: any) {
+interface PillarProps {
+  x: number;
+  z: number;
+  height: number;
+  initialOpacity: number;
+  speed: number;
+  isGlitch?: boolean;
+}
+
+function DataPillar({ x, z, height, initialOpacity, speed, isGlitch }: PillarProps) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const materialRef = useRef<THREE.MeshBasicMaterial>(null!);
   
@@ -75,7 +96,7 @@ function BlackwallScene({ isGlitch }: { isGlitch?: boolean }) {
 
   // Vertical Data Pillars Data
   const pillarCount = 60;
-  const pillarsData = useMemo(() => {
+  const [pillarsData] = useState(() => {
     const data = [];
     for (let i = 0; i < pillarCount; i++) {
       data.push({
@@ -87,7 +108,7 @@ function BlackwallScene({ isGlitch }: { isGlitch?: boolean }) {
       });
     }
     return data;
-  }, []);
+  });
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
@@ -206,18 +227,21 @@ function Starfield() {
   );
 }
 
-export default function Scene({ activeTag, isGlitch, theme }: SceneProps) {
+export default function Scene({ isGlitch, theme }: SceneProps) {
+  const reducedMotion = usePrefersReducedMotion();
   const bgColor = theme === "cyberpunk" ? "#0a0505" : "#000000";
 
   return (
     <div className={`fixed inset-0 -z-10 transition-colors duration-500`} style={{ backgroundColor: bgColor }}>
       <Canvas
         camera={{ position: [0, 0, 1.5], fov: 60 }}
-        onCreated={(state) => {
-          state.gl.setClearColor(bgColor, 1);
-          state.scene.fog = new THREE.FogExp2(bgColor, theme === "cyberpunk" ? 0.15 : 0);
-        }}
+        dpr={[1, 2]}
+        // Reduced motion: render a static frame; useFrame animations stop, and re-render only on theme change
+        frameloop={reducedMotion ? "demand" : "always"}
       >
+        {/* Declarative so background/fog follow theme switches (onCreated only ran once) */}
+        <color attach="background" args={[bgColor]} />
+        <fogExp2 attach="fog" args={[bgColor, theme === "cyberpunk" ? 0.15 : 0]} />
         <ambientLight intensity={0.5} />
         
         {theme === "retro" ? (
