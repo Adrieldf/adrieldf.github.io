@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00f0ff"/>
+      <stop offset="1" stop-color="#ff2bd6"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- chamfered cyberpunk frame -->
+  <path d="M8 0H56L64 8V50L50 64H0V14Z" fill="#07030f"/>
+  <!-- scanlines -->
+  <g stroke="#00f0ff" stroke-opacity=".08" stroke-width="1">
+    <path d="M0 10H64M0 18H64M0 26H64M0 34H64M0 42H64M0 50H64M0 58H64"/>
+  </g>
+  <path d="M8 1.5H55.4L62.5 8.6V49.4L49.4 62.5H1.5V14.6Z" fill="none" stroke="url(#g)" stroke-width="2.5" filter="url(#glow)"/>
+  <!-- corner accents -->
+  <path d="M46 62.5H62.5V46" fill="none" stroke="#fcee0a" stroke-width="3"/>
+  <!-- glitch offset A -->
+  <path d="M15 49 L33 13 L51 49" fill="none" stroke="#ff2bd6" stroke-width="7" stroke-linejoin="miter" transform="translate(2.5 1.5)" opacity=".85"/>
+  <path d="M15 49 L33 13 L51 49" fill="none" stroke="#00f0ff" stroke-width="7" stroke-linejoin="miter" transform="translate(-2 -1)" filter="url(#glow)"/>
+  <path d="M15 49 L33 13 L51 49" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="miter"/>
+  <path d="M23 38H43" stroke="#fcee0a" stroke-width="4"/>
+</svg>

@@ -23,6 +23,8 @@ interface Project {
   desc: string;
   tags: string[];
   image?: string;
+  // Base path (no extension) of a looping preview clip; .webm and .mp4 must both exist. `image` is used as its poster.
+  video?: string;
   color: RetroColor;
   gameLink?: string;
   sourceLink?: string;
@@ -30,11 +32,20 @@ interface Project {
 
 const projects: Project[] = [
   {
-    id: 0, title: "Cozy Farm",
-    desc: "A charming 3D farming experience built with a custom-developed Three.js engine. It features a unique 2.5D rendering system that brings pixel art sprites to life in a 3D world with simulated depth, dynamic shadows, and immersive environment interactions.",
-    tags: ["React", "Next.js", "TS", "Three.js", "2D", "3D", "AI"], color: RetroColor.Orange,
-    image: "/projects/cozy_farm.png",
-    gameLink: "https://cozy-farm-phi.vercel.app"
+    id: 16, title: "Tube Tube Revolution",
+    desc: "A tribute to the Dance Dance Revolution games, living in the same project as TubeHero but with a completely different approach: arrows scroll up the screen in sync with any YouTube song you pick, and you hit them on the beat. Built with Next.js, React, TypeScript and Three.js, with rhythm judging, combos and scoring working alongside the music sync. Note: yes, I know I am really bad at DDR games lol.",
+    tags: ["React", "Next.js", "TS", "Three.js", "Web", "Game", "AI"], color: RetroColor.Pink,
+    image: "/projects/tubehero_revolution_poster.jpg",
+    video: "/projects/tubehero_revolution",
+    gameLink: "https://tubehero.vercel.app/revolution"
+  },
+  {
+    id: 15, title: "TubeHero",
+    desc: "A tribute to Guitar Hero that runs in the browser and turns YouTube videos into playable songs, with the notes flying toward you in a 3D scene. Built with Next.js, React, TypeScript and Three.js, it combines many systems working together - YouTube playback sync, chart generation, note highway rendering, hit detection, combos and scoring - all tuned to keep the fun in first place.",
+    tags: ["React", "Next.js", "TS", "Three.js", "Web", "3D", "Game", "AI"], color: RetroColor.Cyan,
+    image: "/projects/tubehero_poster.jpg",
+    video: "/projects/tubehero",
+    gameLink: "https://tubehero.vercel.app"
   },
   {
     id: 1, title: "Minecraft Resource Pack Merger",
@@ -45,17 +56,19 @@ const projects: Project[] = [
     sourceLink: "https://github.com/Adrieldf/mc-resource-pack-merger"
   },
   {
-    id: 15, title: "TubeHero",
-    desc: "A Guitar Hero clone that runs in the browser and plays music from YouTube videos, with the notes flying toward you in a 3D scene. Built with Three.js, with Claude Code helping to write it.",
-    tags: ["Web", "Three.js", "3D", "Game", "AI"], color: RetroColor.Cyan,
-    image: "/projects/tubehero.gif",
-    gameLink: "https://tubehero.vercel.app"
+    id: 0, title: "Cozy Farm",
+    desc: "A charming farming game built with a custom-developed Three.js engine. Taking an existing pixel art spritesheet, I used Three.js to create a 2.5D rendering style: the flat 2D sprites are placed in a real 3D world, giving them simulated depth, dynamic shadows and a camera that can move around the farm, while keeping the cozy pixel art look intact.",
+    tags: ["React", "Next.js", "TS", "Three.js", "2D", "3D", "AI"], color: RetroColor.Orange,
+    image: "/projects/cozy_farm_poster.jpg",
+    video: "/projects/cozy_farm",
+    gameLink: "https://cozy-farm-phi.vercel.app"
   },
   {
     id: 3, title: "Movies Pack Opener",
-    desc: "A fun web application built with Next.js and React that simulates opening movie-themed mystery packages online. Features dynamic animations and a pack opening experience.",
+    desc: "A fun web application built with Next.js and React that simulates opening mystery card packs online. It started with movies, but now has lots of packs from other categories like games, music, anime, Pokémon and more, using free public APIs to fetch the data and generate the cards. It also integrates with Twitch, so streamers can bring pack openings into their live streams. Features dynamic animations and a satisfying pack opening experience.",
     tags: ["React", "Next.js", "TS", "Web", "AI"], color: RetroColor.Pink,
-    image: "/projects/movies_pack_opener.gif",
+    image: "/projects/movies_pack_opener_poster.jpg",
+    video: "/projects/movies_pack_opener",
     gameLink: "https://adrieldf.github.io/movies-pack-opener-app/",
     sourceLink: "https://github.com/Adrieldf/movies-pack-opener-app"
   },
@@ -157,15 +170,35 @@ function ProjectImage({ project, theme }: { project: Project, theme: Theme }) {
       className={`border-2 md:border-4 mb-4 md:mb-6 overflow-hidden relative ${theme === "cyberpunk" ? "cyberpunk-border" : ""}`}
       style={{ borderColor: theme === "retro" ? project.color : "#ff003c" }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        ref={(el) => { if (el?.complete) setIsLoaded(true); }}
-        src={project.image}
-        loading="lazy"
-        alt={`${project.title} preview`}
-        onLoad={() => setIsLoaded(true)}
-        className={`w-full h-auto block transition-opacity duration-300 ${!isLoaded ? 'opacity-0' : 'opacity-100'}`}
-      />
+      {project.video ? (
+        <video
+          ref={(el) => { if (el && el.readyState >= 2) setIsLoaded(true); }}
+          poster={project.image}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          aria-label={`${project.title} preview`}
+          onLoadedData={() => setIsLoaded(true)}
+          className={`w-full h-auto block transition-opacity duration-300 ${!isLoaded ? 'opacity-0' : 'opacity-100'}`}
+        >
+          <source src={`${project.video}.webm`} type="video/webm" />
+          <source src={`${project.video}.mp4`} type="video/mp4" />
+        </video>
+      ) : (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            ref={(el) => { if (el?.complete) setIsLoaded(true); }}
+            src={project.image}
+            loading="lazy"
+            alt={`${project.title} preview`}
+            onLoad={() => setIsLoaded(true)}
+            className={`w-full h-auto block transition-opacity duration-300 ${!isLoaded ? 'opacity-0' : 'opacity-100'}`}
+          />
+        </>
+      )}
 
       {/* Fallback/Loading background to prevent collapse */}
       {!isLoaded && (
@@ -267,14 +300,14 @@ export default function Home() {
 
         {/* Header com estilo Retro/Cyberpunk */}
         <header
-          className="mb-12 mt-6 relative z-10 text-center md:text-left transition-all"
+          className={`mb-12 mt-6 relative z-10 text-center md:text-left transition-all${isGlitch && theme === "cyberpunk" ? " glitch-active" : ""}`}
         >
           <motion.h1
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             className={`text-2xl md:text-4xl lg:text-5xl font-black mb-2 leading-tight ${theme === "retro"
               ? "text-indigo-400 drop-shadow-[3px_3px_0_#fff]"
-              : "text-[#fcee0a] glitch-text"
+              : `text-[#fcee0a] glitch-text${isGlitch ? " glitch-active" : ""}`
               }`}
             style={theme === "cyberpunk" ? { textShadow: "3px 3px #ff003c, -2px -2px #00f0ff" } : {}}
           >
@@ -329,7 +362,7 @@ export default function Home() {
         </header>
 
         {/* Filtros Retro/Cyberpunk */}
-        <nav className="flex flex-wrap gap-3 mb-12 relative z-10 justify-center md:justify-start transition-all">
+        <nav className={`flex flex-wrap gap-3 mb-12 relative z-10 justify-center md:justify-start transition-all${isGlitch && theme === "cyberpunk" ? " glitch-active" : ""}`}>
           {allTags.map((tag) => (
             <button
               key={tag}
@@ -350,7 +383,7 @@ export default function Home() {
         {/* Grid de Projetos Retro */}
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6 relative z-10"
+          className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6 relative z-10${isGlitch && theme === "cyberpunk" ? " glitch-active" : ""}`}
         >
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
